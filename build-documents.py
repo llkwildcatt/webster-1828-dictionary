@@ -166,6 +166,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <p class="subtitle">Noah Webster's <i>An American Dictionary of the English Language</i>, 1828</p>
     <nav class="sitenav" aria-label="Sections">
       <a href="../#/">Dictionary</a>
+      <a href="../#/dictionaries/">Dictionaries</a>
       <a href="../#/bible/">Holy Bible</a>
       <a href="../#/documents/">Founding Documents</a>
       <a href="../#/about">About</a>

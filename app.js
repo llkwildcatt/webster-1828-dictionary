@@ -115,6 +115,13 @@
       "</form>" +
       '<p><a href="#/bible/">Browse all 66 books</a></p>' +
       "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>More dictionaries</h2>" +
+      "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), " +
+      "Webster's American Dictionary, 1844 edition, and Webster's Revised Unabridged Dictionary, 1913. " +
+      "All free to read and search, like the 1828.</p>" +
+      '<p><a href="#/dictionaries/">Browse all five dictionaries</a></p>' +
+      "</section>" +
       '<section class="home">' +
       "<h2>Look up a word as Webster defined it in 1828</h2>" +
       "<p>Noah Webster's <i>An American Dictionary of the English Language</i> was the first American dictionary. " +
@@ -169,6 +176,18 @@
       "<p>This site also carries the whole King James Version of the Bible &mdash; 66 books, 1,189 chapters, " +
       "31,102 verses &mdash; free to read and search. The King James Version is in the public domain. " +
       "Look up a passage like John 3:16, or search the whole Bible for a word.</p>" +
+      "<h2>The other dictionaries</h2>" +
+      "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), are scanned from the printed books; " +
+      "the text was machine-read, so a word can be misread here and there. Webster's American Dictionary, " +
+      "1844 edition, is the 1841 revised edition reprinted by Harper in 1844. Webster's Revised Unabridged " +
+      "Dictionary, 1913, comes from the GNU Collaborative International Dictionary (GCIDE), built from the 1913 " +
+      "edition; it holds the entries only, without the book's front matter or illustrations. All four are in " +
+      "the public domain.</p>" +
+      "<h2>The founding documents</h2>" +
+      "<p>The Declaration of Independence, the Constitution with all 27 amendments, the Bill of Rights, the " +
+      "Articles of Confederation, all 85 Federalist Papers, the Northwest Ordinance, and Washington's Farewell " +
+      "Address are on this site too, transcribed as printed, plus a page of exact quotations about God and faith " +
+      "from those documents.</p>" +
       "</section>";
   }
 
@@ -519,6 +538,215 @@
     });
   }
 
+  /* ---- Additional dictionaries (Black's 1st/2nd, Webster 1844/1913) ---- */
+
+  var DICTS = {
+    "blacks-1st": { title: "Black's Law Dictionary, 1st edition", year: "1891",
+      dir: "data/blacks-1st", count: "15,476 words",
+      note: "Scanned from the 1891 printed book. The text was machine-read, so a word can be misread here and there." },
+    "blacks-2nd": { title: "Black's Law Dictionary, 2nd edition", year: "1910",
+      dir: "data/blacks-2nd", count: "12,234 words",
+      note: "Scanned from the 1910 printed book. The text was machine-read, so a word can be misread here and there." },
+    "webster-1844": { title: "Webster's American Dictionary, 1844 edition", year: "1844",
+      dir: "data/webster-1844", count: "46,651 words",
+      note: "The 1841 revised edition, reprinted by Harper in 1844 with added appendix words. Scanned text; some words are misread." },
+    "webster-1913": { title: "Webster's Revised Unabridged Dictionary, 1913", year: "1913",
+      dir: "data/webster-1913", count: "96,426 words",
+      note: "From the GNU Collaborative International Dictionary (GCIDE), built from the 1913 edition. Entries only; no front matter or illustrations." },
+  };
+
+  var dictWordsCache = {};    // slug -> [[key, display], ...]
+  var dictWordsPromise = {};  // slug -> promise
+  var dictLetterCache = {};   // slug -> {letter -> {key: [{h, c}, ...]}}
+
+  function dictKey(q) {
+    return (q || "").trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  function loadDictWords(slug) {
+    if (!dictWordsPromise[slug]) {
+      dictWordsPromise[slug] = fetch(DICTS[slug].dir + "/words.json")
+        .then(function (r) {
+          if (!r.ok) throw new Error(slug + " words.json failed: " + r.status);
+          return r.json();
+        })
+        .then(function (data) { dictWordsCache[slug] = data; return data; });
+    }
+    return dictWordsPromise[slug];
+  }
+
+  function loadDictLetter(slug, letter) {
+    letter = (letter || "#").toLowerCase();
+    dictLetterCache[slug] = dictLetterCache[slug] || {};
+    if (dictLetterCache[slug][letter]) return Promise.resolve(dictLetterCache[slug][letter]);
+    return fetch(DICTS[slug].dir + "/" + letter + ".json")
+      .then(function (r) {
+        if (!r.ok) throw new Error(slug + " letter " + letter + " failed: " + r.status);
+        return r.json();
+      })
+      .then(function (data) { dictLetterCache[slug][letter] = data; return data; });
+  }
+
+  function findDictWord(slug, q) {
+    var index = dictWordsCache[slug];
+    if (!index) return null;
+    var lo = 0, hi = index.length - 1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      var w = index[mid][0];
+      if (w === q) return w;
+      if (w < q) lo = mid + 1; else hi = mid - 1;
+    }
+    return null;
+  }
+
+  function dictSuggestionsFor(slug, q, limit) {
+    var index = dictWordsCache[slug];
+    if (!index || !q) return [];
+    var out = [];
+    var i, w;
+    for (i = 0; i < index.length && out.length < limit; i++) {
+      w = index[i][0];
+      if (w.indexOf(q) === 0) out.push(index[i]);
+    }
+    if (out.length < limit) {
+      for (i = 0; i < index.length && out.length < limit; i++) {
+        w = index[i][0];
+        if (w.indexOf(q) > 0 && out.indexOf(index[i]) === -1) out.push(index[i]);
+      }
+    }
+    return out;
+  }
+
+  function dictLettersHtml(slug) {
+    var html = "";
+    for (var i = 0; i < 26; i++) {
+      var letter = String.fromCharCode(97 + i);
+      html += '<a href="#/' + slug + "/letter/" + letter + '">' + letter.toUpperCase() + "</a>";
+    }
+    return html;
+  }
+
+  function renderDictionariesHome() {
+    var html = '<section class="bible"><h2>Dictionaries</h2>' +
+      "<p>Five dictionaries, all in the public domain, all free to read and search.</p>" +
+      '<ul class="doclist">' +
+      '<li><a href="#/">Webster\'s 1828 Dictionary</a><br>Noah Webster\'s <i>An American Dictionary of the English Language</i>, 1828. About 61,500 words, checked word by word against the printed pages, with 491 machine-reading errors fixed.</li>';
+    Object.keys(DICTS).forEach(function (slug) {
+      var d = DICTS[slug];
+      html += '<li><a href="#/' + slug + '/">' + esc(d.title) + " (" + d.year + ")</a><br>" +
+        esc(d.count) + ". " + esc(d.note) + "</li>";
+    });
+    html += "</ul></section>";
+    main.innerHTML = html;
+    document.title = "Dictionaries — Webster's 1828 Dictionary";
+  }
+
+  function renderDictHome(slug) {
+    var d = DICTS[slug];
+    main.innerHTML = '<p class="loading">Loading ' + esc(d.title) + "&hellip;</p>";
+    loadDictWords(slug).then(function () {
+      var html = '<section class="bible"><h2>' + esc(d.title) + " (" + d.year + ")</h2>" +
+        "<p>" + esc(d.count) + ". " + esc(d.note) + "</p>" +
+        '<form id="dict-search-form" autocomplete="off">' +
+        '<label class="visually-hidden" for="dict-search-box">Look up a word</label>' +
+        '<input id="dict-search-box" type="search" placeholder="Look up a word&hellip;" aria-label="Look up a word">' +
+        "<button type=\"submit\">Look up</button>" +
+        "</form>" +
+        '<nav class="letters" aria-label="Browse by letter">' + dictLettersHtml(slug) + "</nav>" +
+        '<p class="random"><button type="button" id="dict-random-word">Show me a random word</button></p>' +
+        '<p><a href="#/dictionaries/">&larr; All dictionaries</a></p>' +
+        "</section>";
+      main.innerHTML = html;
+      document.title = d.title + " (" + d.year + ")";
+      var form = document.getElementById("dict-search-form");
+      if (form) form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var q = dictKey(document.getElementById("dict-search-box").value);
+        if (q) location.hash = "#/" + slug + "/word/" + encodeURIComponent(q);
+      });
+      var btn = document.getElementById("dict-random-word");
+      if (btn) btn.addEventListener("click", function () {
+        var index = dictWordsCache[slug];
+        var pair = index[Math.floor(Math.random() * index.length)];
+        location.hash = "#/" + slug + "/word/" + encodeURIComponent(pair[0]);
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that dictionary. Please try again.</p>';
+    });
+  }
+
+  function renderDictNotFound(slug, q) {
+    var d = DICTS[slug];
+    var list = dictSuggestionsFor(slug, q, 8);
+    var html = '<section class="notfound"><h2>No entry for &ldquo;' + esc(q) + "&rdquo; in " + esc(d.title) + "</h2>";
+    if (list.length) {
+      html += "<p>Did you mean one of these?</p><ul>";
+      list.forEach(function (pair) {
+        html += '<li><a href="#/' + slug + "/word/" + encodeURIComponent(pair[0]) + '">' + esc(pair[1]) + "</a></li>";
+      });
+      html += "</ul>";
+    } else {
+      html += "<p>Try another spelling, or browse by letter above.</p>";
+    }
+    html += '<p><a href="#/' + slug + '/">&larr; Back to ' + esc(d.title) + "</a></p></section>";
+    main.innerHTML = html;
+  }
+
+  function renderDictWord(slug, word) {
+    var d = DICTS[slug];
+    main.innerHTML = '<p class="loading">Loading &ldquo;' + esc(word) + "&rdquo;&hellip;</p>";
+    loadDictWords(slug).then(function () {
+      var exact = findDictWord(slug, word);
+      if (!exact) { renderDictNotFound(slug, word); return; }
+      return loadDictLetter(slug, firstLetter(exact)).then(function (entries) {
+        var list = entries[exact];
+        if (!list || !list.length) { renderDictNotFound(slug, word); return; }
+        var index = dictWordsCache[slug];
+        var idx = -1;
+        for (var i = 0; i < index.length; i++) {
+          if (index[i][0] === exact) { idx = i; break; }
+        }
+        var prev = idx > 0 ? index[idx - 1] : null;
+        var next = idx >= 0 && idx < index.length - 1 ? index[idx + 1] : null;
+        var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
+        list.forEach(function (entry) {
+          html += '<div class="definition">' + entry.c + "</div>";
+        });
+        html += '<nav class="wordnav" aria-label="Previous and next words"><span>';
+        if (prev) html += '&larr; <a href="#/' + slug + "/word/" + encodeURIComponent(prev[0]) + '">' + esc(prev[1]) + "</a>";
+        html += "</span><span>";
+        if (next) html += '<a href="#/' + slug + "/word/" + encodeURIComponent(next[0]) + '">' + esc(next[1]) + "</a> &rarr;";
+        html += "</span></nav>";
+        html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></article>";
+        main.innerHTML = html;
+        document.title = list[0].h + " — " + d.title;
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that word. Please try again.</p>';
+    });
+  }
+
+  function renderDictLetter(slug, letter) {
+    var d = DICTS[slug];
+    main.innerHTML = '<p class="loading">Loading words beginning with ' + esc(letter.toUpperCase()) + "&hellip;</p>";
+    loadDictLetter(slug, letter).then(function (entries) {
+      var keys = Object.keys(entries).sort(function (a, b) { return a.localeCompare(b); });
+      var html = '<section class="browse"><h2>' + esc(d.title) + " &mdash; words beginning with " + esc(letter.toUpperCase()) + "</h2>";
+      html += "<p>" + keys.length.toLocaleString() + " words.</p>";
+      html += '<ul class="wordlist">';
+      keys.forEach(function (w) {
+        html += '<li><a href="#/' + slug + "/word/" + encodeURIComponent(w) + '">' + esc(entries[w][0].h) + "</a></li>";
+      });
+      html += "</ul>";
+      html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></section>";
+      main.innerHTML = html;
+      document.title = d.title + " — " + letter.toUpperCase();
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that letter. Please try again.</p>';
+    });
+  }
+
   function route() {
     var hash = location.hash || "#/";
     var parts = hash.replace(/^#\/?/, "").split("/");
@@ -543,6 +771,18 @@
     } else if (kind === "documents") {
       document.title = "Founding Documents — Webster's 1828 Dictionary";
       renderDocumentsHome();
+    } else if (kind === "dictionaries") {
+      document.title = "Dictionaries — Webster's 1828 Dictionary";
+      renderDictionariesHome();
+    } else if (DICTS[kind]) {
+      var slug = kind;
+      if (parts[1] === "word" && parts[2]) {
+        renderDictWord(slug, dictKey(decodeURIComponent(parts[2])));
+      } else if (parts[1] === "letter" && parts[2]) {
+        renderDictLetter(slug, parts[2].toLowerCase());
+      } else {
+        renderDictHome(slug);
+      }
     } else if (kind === "about") {
       document.title = "About — Webster's 1828 Dictionary";
       renderAbout();

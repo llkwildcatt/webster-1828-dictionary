@@ -83,13 +83,14 @@ a:hover { text-decoration: underline; }
 
 .letters { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.25rem; }
 .letters a {
-  color: #e8d9bd;
+  color: var(--accent);
   text-decoration: none;
   padding: 0.1rem 0.45rem;
   border-radius: 3px;
   font-size: 0.95rem;
+  font-weight: bold;
 }
-.letters a:hover { background: #4a3826; color: #fff; }
+.letters a:hover { background: var(--accent); color: #fff; }
 
 .sitenav { margin-top: 0.7rem; font-size: 1rem; }
 .sitenav a { color: #f3e9d7; text-decoration: none; margin-right: 1.2rem; border-bottom: 1px solid #6b5d4f; padding-bottom: 0.1rem; }

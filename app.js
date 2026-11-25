@@ -547,10 +547,10 @@
     "blacks-2nd": { title: "Black's Law Dictionary, 2nd edition", year: "1910",
       dir: "data/blacks-2nd", count: "12,234 words",
       note: "Scanned from the 1910 printed book. The text was machine-read, so a word can be misread here and there." },
-    "webster-1844": { title: "Webster's American Dictionary, 1844 edition", year: "1844",
+    "webster-1844": { title: "Webster's American Dictionary", year: "1844",
       dir: "data/webster-1844", count: "46,651 words",
       note: "The 1841 revised edition, reprinted by Harper in 1844 with added appendix words. Scanned text; some words are misread." },
-    "webster-1913": { title: "Webster's Revised Unabridged Dictionary, 1913", year: "1913",
+    "webster-1913": { title: "Webster's Revised Unabridged Dictionary", year: "1913",
       dir: "data/webster-1913", count: "96,426 words",
       note: "From the GNU Collaborative International Dictionary (GCIDE), built from the 1913 edition. Entries only; no front matter or illustrations." },
   };

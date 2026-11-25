@@ -117,11 +117,15 @@ def parse_1913(path, start_marker):
 
 
 DICTS = [
+    # Black's texts are the CORRECTED copies (OCR errors fixed 2026-11-25:
+    # 1,766 in the 1st edition, 6,691 in the 2nd). Originals kept untouched
+    # in the same folder; corrections lists at blacks-law-1st-corrections.md
+    # and blacks-law-2nd-corrections.md.
     {"slug": "blacks-1st", "title": "Black's Law Dictionary, 1st edition (1891)",
-     "path": os.path.join(REF_DIR, "blacks-law-1st-edition-1891.txt"),
+     "path": os.path.join(REF_DIR, "blacks-law-1st-edition-1891-corrected.txt"),
      "parse": lambda p: parse_scanned(p, "ABANDON", "ZYTHUM")},
     {"slug": "blacks-2nd", "title": "Black's Law Dictionary, 2nd edition (1910)",
-     "path": os.path.join(REF_DIR, "blacks-law-2nd-edition-1910.txt"),
+     "path": os.path.join(REF_DIR, "blacks-law-2nd-edition-1910-corrected.txt"),
      "parse": lambda p: parse_scanned(p, "ABANDON", "ZYTHUM")},
     {"slug": "webster-1844", "title": "Webster's American Dictionary, 1844 edition",
      "path": os.path.join(REF_DIR, "webster-1844-dictionary.txt"),

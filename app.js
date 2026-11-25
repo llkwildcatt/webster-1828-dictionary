@@ -542,11 +542,11 @@
 
   var DICTS = {
     "blacks-1st": { title: "Black's Law Dictionary, 1st edition", year: "1891",
-      dir: "data/blacks-1st", count: "15,476 words",
-      note: "Scanned from the 1891 printed book. The text was machine-read, so a word can be misread here and there." },
+      dir: "data/blacks-1st", count: "15,934 words",
+      note: "Scanned from the 1891 printed book and corrected against two other scans of the same book — 1,766 OCR errors fixed (Nov 2026). A word can still be misread here and there." },
     "blacks-2nd": { title: "Black's Law Dictionary, 2nd edition", year: "1910",
-      dir: "data/blacks-2nd", count: "12,234 words",
-      note: "Scanned from the 1910 printed book. The text was machine-read, so a word can be misread here and there." },
+      dir: "data/blacks-2nd", count: "12,230 words",
+      note: "Scanned from the 1910 printed book and corrected against two other scans of the same book — 6,691 OCR errors fixed (Nov 2026). A word can still be misread here and there." },
     "webster-1844": { title: "Webster's American Dictionary", year: "1844",
       dir: "data/webster-1844", count: "46,651 words",
       note: "The 1841 revised edition, reprinted by Harper in 1844 with added appendix words. Scanned text; some words are misread." },

@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261125161042";
+  var BUILD_V = "20261125181627";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -124,9 +124,10 @@
       '<section class="bible-feature">' +
       "<h2>More dictionaries</h2>" +
       "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), " +
-      "Webster's American Dictionary, 1844 edition, and Webster's Revised Unabridged Dictionary, 1913. " +
+      "Webster's American Dictionary, 1844 edition, Webster's Revised Unabridged Dictionary, 1913, " +
+      "and John Harris's Lexicon Technicum, 1704. " +
       "All free to read and search, like the 1828.</p>" +
-      '<p><a href="#/dictionaries/">Browse all five dictionaries</a></p>' +
+      '<p><a href="#/dictionaries/">Browse all six dictionaries</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
@@ -202,6 +203,13 @@
       "Dictionary, 1913, comes from the GNU Collaborative International Dictionary (GCIDE), built from the 1913 " +
       "edition; it holds the entries only, without the book's front matter or illustrations. All four are in " +
       "the public domain.</p>" +
+      "<h2>Lexicon Technicum, 1704</h2>" +
+      "<p>John Harris's <i>Lexicon Technicum</i>, first edition, London 1704, is also on this site — 5,632 entries, " +
+      "889,937 words — widely considered the first alphabetical encyclopedia written in English, heavy on science " +
+      "and mathematics. The text was machine-read from the ETH-Bibliothek Z&uuml;rich copy and cleaned up word by " +
+      "word: 13,041 errors fixed, including 465 by reading the sentence around each garbled word. The book has no " +
+      "printed page numbers, so entries are cited by letter section and headword. Two entries are lost entirely " +
+      "and are not in this data. Later editions will follow, one at a time.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
       "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
       "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words. " +
@@ -580,6 +588,10 @@
     "webster-1913": { title: "Webster's Revised Unabridged Dictionary", year: "1913",
       dir: "data/webster-1913", count: "96,426 words",
       note: "From the GNU Collaborative International Dictionary (GCIDE), built from the 1913 edition. Entries only; no front matter or illustrations." },
+    "lexicon-technicum-1704": { title: "Lexicon Technicum", year: "1704",
+      dir: "data/lexicon-technicum-1704", count: "5,632 entries",
+      letters: "abcdefghiklmnopqrstvwxyz",
+      note: "John Harris's Lexicon Technicum, first edition, London 1704 — widely considered the first alphabetical encyclopedia written in English, heavy on science and mathematics. Scanned from the ETH-Bibliothek Zürich copy and cleaned up word by word — 13,041 machine-reading errors fixed (Nov 2026), including 465 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by letter section and headword. Two entries are lost entirely and are not in this data." },
   };
 
   var dictWordsCache = {};    // slug -> [[key, display], ...]
@@ -646,9 +658,10 @@
   }
 
   function dictLettersHtml(slug) {
+    var letters = (DICTS[slug] && DICTS[slug].letters) || "abcdefghijklmnopqrstuvwxyz";
     var html = "";
-    for (var i = 0; i < 26; i++) {
-      var letter = String.fromCharCode(97 + i);
+    for (var i = 0; i < letters.length; i++) {
+      var letter = letters[i];
       html += '<a href="#/' + slug + "/letter/" + letter + '">' + letter.toUpperCase() + "</a>";
     }
     return html;
@@ -656,7 +669,7 @@
 
   function renderDictionariesHome() {
     var html = '<section class="bible"><h2>Dictionaries</h2>' +
-      "<p>Five dictionaries, all in the public domain, all free to read and search.</p>" +
+      "<p>Six dictionaries, all in the public domain, all free to read and search.</p>" +
       '<ul class="doclist">' +
       '<li><a href="#/">Webster\'s 1828 Dictionary</a><br>Noah Webster\'s <i>An American Dictionary of the English Language</i>, 1828. About 61,500 words, checked word by word against the printed pages, with 491 machine-reading errors fixed.</li>';
     Object.keys(DICTS).forEach(function (slug) {
@@ -726,17 +739,20 @@
     loadDictWords(slug).then(function () {
       var exact = findDictWord(slug, word);
       if (!exact) { renderDictNotFound(slug, word); return; }
-      return loadDictLetter(slug, firstLetter(exact)).then(function (entries) {
+      var index = dictWordsCache[slug];
+      var idx = -1;
+      for (var i = 0; i < index.length; i++) {
+        if (index[i][0] === exact) { idx = i; break; }
+      }
+      function showDictEntries(entries) {
         var list = entries[exact];
         if (!list || !list.length) { renderDictNotFound(slug, word); return; }
-        var index = dictWordsCache[slug];
-        var idx = -1;
-        for (var i = 0; i < index.length; i++) {
-          if (index[i][0] === exact) { idx = i; break; }
-        }
         var prev = idx > 0 ? index[idx - 1] : null;
         var next = idx >= 0 && idx < index.length - 1 ? index[idx + 1] : null;
         var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
+        if (idx >= 0 && index[idx][2]) {
+          html += '<p class="article-meta">Section ' + esc(index[idx][2]) + "</p>";
+        }
         list.forEach(function (entry) {
           html += '<div class="definition">' + entry.c + "</div>";
         });
@@ -748,6 +764,11 @@
         html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></article>";
         main.innerHTML = html;
         document.title = list[0].h + " — " + d.title;
+      }
+      return loadDictLetter(slug, firstLetter(exact)).then(function (entries) {
+        if (entries[exact] && entries[exact].length) { showDictEntries(entries); return; }
+        // Some records live in a file named after the entry itself (e.g. front matter).
+        return loadDictLetter(slug, exact).then(showDictEntries);
       });
     }).catch(function () {
       main.innerHTML = '<p class="error">Could not load that word. Please try again.</p>';

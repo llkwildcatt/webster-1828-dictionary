@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261125134411";
+  var BUILD_V = "20261125151739";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -130,9 +130,10 @@
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
-      "<p>The 1st edition (1768–1771), all three volumes — 12,409 articles, cleaned up word by word from the " +
-      "printed books. More editions to come, one at a time, each cleaned the same way.</p>" +
-      '<p><a href="#/britannica-1st/">Read the 1st edition</a></p>' +
+      "<p>The 1st edition (1768–1771), all three volumes, and the 2nd edition (1778–1783), all ten volumes — " +
+      "22,919 articles between them, cleaned up word by word from the printed books. More editions to come, " +
+      "one at a time, each cleaned the same way.</p>" +
+      '<p><a href="#/britannica/">Browse the Britannica editions</a></p>' +
       "</section>" +
       '<section class="home">' +
       "<h2>Look up a word as Webster defined it in 1828</h2>" +
@@ -196,12 +197,13 @@
       "edition; it holds the entries only, without the book's front matter or illustrations. All four are in " +
       "the public domain.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
-      "<p>The 1st edition (1768–1771), all three volumes, is on this site too — 12,409 articles, 2,582,673 words. " +
-      "The text was machine-read from scans of the printed books and cleaned up word by word: 281,230 errors fixed, " +
-      "including the long s (&fnof;) the scanner read as f, so &ldquo;fcience&rdquo; reads &ldquo;science&rdquo; again. " +
-      "About one word in seventy is still unresolved or garbled, and the article page numbers are estimates. " +
-      "The spellings are the book's own, as printed in 1768–1771. More editions will follow, one at a time, " +
-      "each cleaned the same way.</p>" +
+      "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
+      "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words. " +
+      "The text was machine-read from scans of the printed books and cleaned up word by word: 281,230 errors fixed " +
+      "in the 1st edition and 1,585,123 in the 2nd, including the long s (&fnof;) the scanner read as f, so " +
+      "&ldquo;fcience&rdquo; reads &ldquo;science&rdquo; again. Some words are still unresolved or garbled, and the " +
+      "article page numbers are estimates. The spellings are the books' own, as printed. More editions will follow, " +
+      "one at a time, each cleaned the same way.</p>" +
       "<h2>The founding documents</h2>" +
       "<p>The Declaration of Independence, the Constitution with all 27 amendments, the Bill of Rights, the " +
       "Articles of Confederation, all 85 Federalist Papers, the Northwest Ordinance, and Washington's Farewell " +
@@ -778,6 +780,13 @@
       dir: "data/britannica-1st",
       count: "12,409 articles",
       note: "Scanned from the 1768–1771 printed books and cleaned up word by word — 281,230 machine-reading errors fixed, including the long s the scanner read as f. About one word in seventy is still unresolved or garbled; article page numbers are estimates."
+    },
+    "britannica-2nd": {
+      title: "Encyclopaedia Britannica, 2nd edition",
+      years: "1778–1783",
+      dir: "data/britannica-2nd",
+      count: "10,510 articles",
+      note: "Scanned from the 1778–1783 printed books and cleaned up word by word — 1,585,123 machine-reading errors fixed, including the long s the scanner read as f. About 64,000 words are still unresolved or garbled; the pages run continuously 1–9199 across all ten volumes, and article page numbers are estimates."
     },
   };
 

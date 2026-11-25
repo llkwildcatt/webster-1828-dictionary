@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261125152025";
+  var BUILD_V = "20261125161042";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -134,6 +134,12 @@
       "22,919 articles between them, cleaned up word by word from the printed books. More editions to come, " +
       "one at a time, each cleaned the same way.</p>" +
       '<p><a href="#/britannica/">Browse the Britannica editions</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>Follow the Dictionary on Facebook</h2>" +
+      "<p>News and notes from Noah Webster&rsquo;s 1828 Dictionary Online, our Facebook page.</p>" +
+      '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FNoahWebster1828DictionaryOnline&amp;tabs=timeline&amp;width=500&amp;height=600&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true" width="500" height="600" style="border:none;overflow:hidden;max-width:100%" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>' +
+      '<p><a href="https://www.facebook.com/NoahWebster1828DictionaryOnline" target="_blank" rel="noopener">Visit the Facebook page</a></p>' +
       "</section>" +
       '<section class="home">' +
       "<h2>Look up a word as Webster defined it in 1828</h2>" +

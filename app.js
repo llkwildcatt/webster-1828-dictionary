@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261125113231";
+  var BUILD_V = "20261125134411";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -128,6 +128,12 @@
       "All free to read and search, like the 1828.</p>" +
       '<p><a href="#/dictionaries/">Browse all five dictionaries</a></p>' +
       "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>Encyclopaedia Britannica</h2>" +
+      "<p>The 1st edition (1768–1771), all three volumes — 12,409 articles, cleaned up word by word from the " +
+      "printed books. More editions to come, one at a time, each cleaned the same way.</p>" +
+      '<p><a href="#/britannica-1st/">Read the 1st edition</a></p>' +
+      "</section>" +
       '<section class="home">' +
       "<h2>Look up a word as Webster defined it in 1828</h2>" +
       "<p>Noah Webster's <i>An American Dictionary of the English Language</i> was the first American dictionary. " +
@@ -189,6 +195,13 @@
       "Dictionary, 1913, comes from the GNU Collaborative International Dictionary (GCIDE), built from the 1913 " +
       "edition; it holds the entries only, without the book's front matter or illustrations. All four are in " +
       "the public domain.</p>" +
+      "<h2>The Encyclopaedia Britannica</h2>" +
+      "<p>The 1st edition (1768–1771), all three volumes, is on this site too — 12,409 articles, 2,582,673 words. " +
+      "The text was machine-read from scans of the printed books and cleaned up word by word: 281,230 errors fixed, " +
+      "including the long s (&fnof;) the scanner read as f, so &ldquo;fcience&rdquo; reads &ldquo;science&rdquo; again. " +
+      "About one word in seventy is still unresolved or garbled, and the article page numbers are estimates. " +
+      "The spellings are the book's own, as printed in 1768–1771. More editions will follow, one at a time, " +
+      "each cleaned the same way.</p>" +
       "<h2>The founding documents</h2>" +
       "<p>The Declaration of Independence, the Constitution with all 27 amendments, the Bill of Rights, the " +
       "Articles of Confederation, all 85 Federalist Papers, the Northwest Ordinance, and Washington's Farewell " +
@@ -753,6 +766,226 @@
     });
   }
 
+  // Encyclopaedia Britannica editions. Data shape matches the dictionaries:
+  // data/<slug>/<letter>.json is a dict key -> [{h, c}] (paragraph HTML),
+  // and words.json is a sorted list of [key, display, volume, page].
+  // Article page numbers are interpolated estimates (about ±20 pages),
+  // except the twelve Volume I treatise pages, which are exact.
+  var BRIT = {
+    "britannica-1st": {
+      title: "Encyclopaedia Britannica, 1st edition",
+      years: "1768–1771",
+      dir: "data/britannica-1st",
+      count: "12,409 articles",
+      note: "Scanned from the 1768–1771 printed books and cleaned up word by word — 281,230 machine-reading errors fixed, including the long s the scanner read as f. About one word in seventy is still unresolved or garbled; article page numbers are estimates."
+    },
+  };
+
+  var britWordsCache = {};    // slug -> [[key, display, volume, page], ...]
+  var britWordsPromise = {};  // slug -> promise
+  var britLetterCache = {};   // slug -> {letter -> {key: [{h, c}, ...]}}
+
+  function britKey(q) {
+    return (q || "").trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  function britRoman(n) {
+    return ["", "I", "II", "III", "IV", "V"][n] || String(n);
+  }
+
+  function loadBritWords(slug) {
+    if (!britWordsPromise[slug]) {
+      britWordsPromise[slug] = fetch(bust(BRIT[slug].dir + "/words.json"))
+        .then(function (r) {
+          if (!r.ok) throw new Error(slug + " words.json failed: " + r.status);
+          return r.json();
+        })
+        .then(function (data) { britWordsCache[slug] = data; return data; });
+    }
+    return britWordsPromise[slug];
+  }
+
+  function loadBritLetter(slug, letter) {
+    letter = (letter || "#").toLowerCase();
+    britLetterCache[slug] = britLetterCache[slug] || {};
+    if (britLetterCache[slug][letter]) return Promise.resolve(britLetterCache[slug][letter]);
+    return fetch(bust(BRIT[slug].dir + "/" + letter + ".json"))
+      .then(function (r) {
+        if (!r.ok) throw new Error(slug + " letter " + letter + " failed: " + r.status);
+        return r.json();
+      })
+      .then(function (data) { britLetterCache[slug][letter] = data; return data; });
+  }
+
+  // Binary search over the sorted words index; returns the first index of
+  // the key, or -1 when the key is absent.
+  function findBritArticle(slug, q) {
+    var index = britWordsCache[slug];
+    if (!index) return -1;
+    var lo = 0, hi = index.length - 1, found = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      var w = index[mid][0];
+      if (w === q) { found = mid; hi = mid - 1; }
+      else if (w < q) lo = mid + 1;
+      else hi = mid - 1;
+    }
+    return found;
+  }
+
+  function britEntriesFor(slug, q) {
+    var index = britWordsCache[slug];
+    if (!index) return [];
+    var out = [];
+    for (var i = 0; i < index.length; i++) {
+      if (index[i][0] === q) out.push(index[i]);
+    }
+    return out;
+  }
+
+  function britSuggestionsFor(slug, q, limit) {
+    var index = britWordsCache[slug];
+    if (!index || !q) return [];
+    var out = [];
+    var i, w;
+    for (i = 0; i < index.length && out.length < limit; i++) {
+      w = index[i][0];
+      if (w.indexOf(q) === 0 && out.indexOf(index[i]) === -1) out.push(index[i]);
+    }
+    if (out.length < limit) {
+      for (i = 0; i < index.length && out.length < limit; i++) {
+        w = index[i][0];
+        if (w.indexOf(q) > 0 && out.indexOf(index[i]) === -1) out.push(index[i]);
+      }
+    }
+    return out;
+  }
+
+  function renderBritannicaHome() {
+    var html = '<section class="bible"><h2>Encyclopaedia Britannica</h2>' +
+      "<p>Every edition from the 1st (1768) through the 13th (1926) is in the public domain. " +
+      "They are being added one at a time, each cleaned up word by word from the printed books.</p>" +
+      '<ul class="doclist">';
+    Object.keys(BRIT).forEach(function (slug) {
+      var d = BRIT[slug];
+      html += '<li><a href="#/' + slug + '/">' + esc(d.title) + " (" + d.years + ")</a><br>" +
+        esc(d.count) + ". " + esc(d.note) + "</li>";
+    });
+    html += "</ul></section>";
+    main.innerHTML = html;
+    document.title = "Encyclopaedia Britannica — Webster's 1828 Dictionary";
+  }
+
+  function renderBritHome(slug) {
+    var d = BRIT[slug];
+    main.innerHTML = '<p class="loading">Loading ' + esc(d.title) + "&hellip;</p>";
+    loadBritWords(slug).then(function () {
+      var html = '<section class="bible"><h2>' + esc(d.title) + " (" + d.years + ")</h2>" +
+        "<p>" + esc(d.count) + ". " + esc(d.note) + "</p>" +
+        '<form id="brit-search-form" autocomplete="off">' +
+        '<label class="visually-hidden" for="brit-search-box">Look up an article</label>' +
+        '<input id="brit-search-box" type="search" placeholder="Look up an article&hellip; e.g. America, Anatomy" aria-label="Look up an article">' +
+        "<button type=\"submit\">Look up</button>" +
+        "</form>" +
+        '<nav class="letters" aria-label="Browse by letter">' + dictLettersHtml(slug) + "</nav>" +
+        '<p class="random"><button type="button" id="brit-random-article">Show me a random article</button></p>' +
+        '<p><a href="#/britannica/">&larr; All Britannica editions</a></p>' +
+        "</section>";
+      main.innerHTML = html;
+      document.title = d.title + " (" + d.years + ")";
+      var form = document.getElementById("brit-search-form");
+      if (form) form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var q = britKey(document.getElementById("brit-search-box").value);
+        if (q) location.hash = "#/" + slug + "/article/" + encodeURIComponent(q);
+      });
+      var btn = document.getElementById("brit-random-article");
+      if (btn) btn.addEventListener("click", function () {
+        var index = britWordsCache[slug];
+        var pair = index[Math.floor(Math.random() * index.length)];
+        location.hash = "#/" + slug + "/article/" + encodeURIComponent(pair[0]);
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that edition. Please try again.</p>';
+    });
+  }
+
+  function renderBritLetter(slug, letter) {
+    var d = BRIT[slug];
+    main.innerHTML = '<p class="loading">Loading articles beginning with ' + esc(letter.toUpperCase()) + "&hellip;</p>";
+    loadBritLetter(slug, letter).then(function (entries) {
+      var keys = Object.keys(entries).sort(function (a, b) { return a.localeCompare(b); });
+      var html = '<section class="browse"><h2>' + esc(d.title) + " &mdash; articles beginning with " + esc(letter.toUpperCase()) + "</h2>";
+      html += "<p>" + keys.length.toLocaleString() + " articles.</p>";
+      html += '<ul class="wordlist">';
+      keys.forEach(function (w) {
+        html += '<li><a href="#/' + slug + "/article/" + encodeURIComponent(w) + '">' + esc(entries[w][0].h) + "</a></li>";
+      });
+      html += "</ul>";
+      html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></section>";
+      main.innerHTML = html;
+      document.title = d.title + " — " + letter.toUpperCase();
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that letter. Please try again.</p>';
+    });
+  }
+
+  function renderBritNotFound(slug, q) {
+    var d = BRIT[slug];
+    var list = britSuggestionsFor(slug, q, 8);
+    var html = '<section class="notfound"><h2>No article for &ldquo;' + esc(q) + "&rdquo; in " + esc(d.title) + "</h2>";
+    if (list.length) {
+      html += "<p>Did you mean one of these?</p><ul>";
+      list.forEach(function (pair) {
+        html += '<li><a href="#/' + slug + "/article/" + encodeURIComponent(pair[0]) + '">' + esc(pair[1]) + "</a></li>";
+      });
+      html += "</ul>";
+    } else {
+      html += "<p>Try another spelling, or browse by letter above.</p>";
+    }
+    html += '<p><a href="#/' + slug + '/">&larr; Back to ' + esc(d.title) + "</a></p></section>";
+    main.innerHTML = html;
+  }
+
+  function renderBritArticle(slug, key) {
+    var d = BRIT[slug];
+    main.innerHTML = '<p class="loading">Loading &ldquo;' + esc(key) + "&rdquo;&hellip;</p>";
+    loadBritWords(slug).then(function () {
+      var idx = findBritArticle(slug, key);
+      if (idx < 0) { renderBritNotFound(slug, key); return; }
+      return loadBritLetter(slug, firstLetter(key)).then(function (entries) {
+        var list = entries[key];
+        if (!list || !list.length) { renderBritNotFound(slug, key); return; }
+        var index = britWordsCache[slug];
+        // words.json entries for this key, in the same order as the
+        // letter-file list, carry each article's volume and page.
+        var meta = britEntriesFor(slug, key);
+        var prev = idx > 0 ? index[idx - 1] : null;
+        var next = idx + list.length < index.length ? index[idx + list.length] : null;
+        var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
+        list.forEach(function (entry, i) {
+          var m = meta[i];
+          if (m && m[3] != null) {
+            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + " &middot; about page " + m[3] + "</p>";
+          } else if (m) {
+            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + "</p>";
+          }
+          html += '<div class="definition">' + entry.c + "</div>";
+        });
+        html += '<nav class="wordnav" aria-label="Previous and next articles"><span>';
+        if (prev) html += '&larr; <a href="#/' + slug + "/article/" + encodeURIComponent(prev[0]) + '">' + esc(prev[1]) + "</a>";
+        html += "</span><span>";
+        if (next) html += '<a href="#/' + slug + "/article/" + encodeURIComponent(next[0]) + '">' + esc(next[1]) + "</a> &rarr;";
+        html += "</span></nav>";
+        html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></article>";
+        main.innerHTML = html;
+        document.title = list[0].h + " — " + d.title;
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that article. Please try again.</p>';
+    });
+  }
+
   function route() {
     var hash = location.hash || "#/";
     var parts = hash.replace(/^#\/?/, "").split("/");
@@ -780,6 +1013,18 @@
     } else if (kind === "dictionaries") {
       document.title = "Dictionaries — Webster's 1828 Dictionary";
       renderDictionariesHome();
+    } else if (kind === "britannica") {
+      document.title = "Encyclopaedia Britannica — Webster's 1828 Dictionary";
+      renderBritannicaHome();
+    } else if (BRIT[kind]) {
+      var bslug = kind;
+      if (parts[1] === "article" && parts[2]) {
+        renderBritArticle(bslug, britKey(decodeURIComponent(parts[2])));
+      } else if (parts[1] === "letter" && parts[2]) {
+        renderBritLetter(bslug, parts[2].toLowerCase());
+      } else {
+        renderBritHome(bslug);
+      }
     } else if (DICTS[kind]) {
       var slug = kind;
       if (parts[1] === "word" && parts[2]) {

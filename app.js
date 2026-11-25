@@ -4,6 +4,12 @@
 (function () {
   "use strict";
 
+  // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
+  // every deploy gives the data files a fresh URL and browsers cannot keep
+  // serving the previous deploy's cached JSON.
+  var BUILD_V = "20261125113231";
+  function bust(u) { return u + "?v=" + BUILD_V; }
+
   var main = document.getElementById("main");
   var searchBox = document.getElementById("search-box");
   var searchForm = document.getElementById("search-form");
@@ -28,7 +34,7 @@
 
   function loadWordsIndex() {
     if (!wordsIndexPromise) {
-      wordsIndexPromise = fetch("data/words.json")
+      wordsIndexPromise = fetch(bust("data/words.json"))
         .then(function (r) {
           if (!r.ok) throw new Error("words.json failed: " + r.status);
           return r.json();
@@ -41,7 +47,7 @@
   function loadLetter(letter) {
     letter = (letter || "#").toLowerCase();
     if (letterCache[letter]) return Promise.resolve(letterCache[letter]);
-    return fetch("data/" + letter + ".json")
+    return fetch(bust("data/" + letter + ".json"))
       .then(function (r) {
         if (!r.ok) throw new Error("letter " + letter + " failed: " + r.status);
         return r.json();
@@ -263,7 +269,7 @@
 
   function loadBibleBooks() {
     if (!bibleBooksPromise) {
-      bibleBooksPromise = fetch("data/bible/books.json")
+      bibleBooksPromise = fetch(bust("data/bible/books.json"))
         .then(function (r) {
           if (!r.ok) throw new Error("books.json failed: " + r.status);
           return r.json();
@@ -275,7 +281,7 @@
 
   function loadBibleBook(slug) {
     if (bibleBookCache[slug]) return Promise.resolve(bibleBookCache[slug]);
-    return fetch("data/bible/" + slug + ".json")
+    return fetch(bust("data/bible/" + slug + ".json"))
       .then(function (r) {
         if (!r.ok) throw new Error("book " + slug + " failed: " + r.status);
         return r.json();
@@ -285,7 +291,7 @@
 
   function loadBibleVerses() {
     if (!bibleVersesPromise) {
-      bibleVersesPromise = fetch("data/bible/verses.json")
+      bibleVersesPromise = fetch(bust("data/bible/verses.json"))
         .then(function (r) {
           if (!r.ok) throw new Error("verses.json failed: " + r.status);
           return r.json();
@@ -507,7 +513,7 @@
 
   function loadDocuments() {
     if (!documentsPromise) {
-      documentsPromise = fetch("data/documents.json")
+      documentsPromise = fetch(bust("data/documents.json"))
         .then(function (r) {
           if (!r.ok) throw new Error("documents.json failed: " + r.status);
           return r.json();
@@ -565,7 +571,7 @@
 
   function loadDictWords(slug) {
     if (!dictWordsPromise[slug]) {
-      dictWordsPromise[slug] = fetch(DICTS[slug].dir + "/words.json")
+      dictWordsPromise[slug] = fetch(bust(DICTS[slug].dir + "/words.json"))
         .then(function (r) {
           if (!r.ok) throw new Error(slug + " words.json failed: " + r.status);
           return r.json();
@@ -579,7 +585,7 @@
     letter = (letter || "#").toLowerCase();
     dictLetterCache[slug] = dictLetterCache[slug] || {};
     if (dictLetterCache[slug][letter]) return Promise.resolve(dictLetterCache[slug][letter]);
-    return fetch(DICTS[slug].dir + "/" + letter + ".json")
+    return fetch(bust(DICTS[slug].dir + "/" + letter + ".json"))
       .then(function (r) {
         if (!r.ok) throw new Error(slug + " letter " + letter + " failed: " + r.status);
         return r.json();

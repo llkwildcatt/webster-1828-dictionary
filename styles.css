@@ -208,6 +208,28 @@ footer p { margin: 0.6rem 0; }
 .search-results li:last-child { border-bottom: 0; }
 .search-results mark { background: #f7e8c8; }
 
+.doc h2 { font-size: 1.5rem; font-weight: normal; margin: 0 0 0.4rem; }
+.doc h3 { font-size: 1.2rem; font-weight: normal; margin: 1.4rem 0 0.4rem; }
+.doc p { margin: 0.7rem 0; }
+.doc-source { color: var(--muted); font-size: 0.92rem; }
+.doctoc { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 0.8rem 1.2rem; margin: 1rem 0; }
+.doctoc h3 { margin: 0 0 0.4rem; }
+.doctoc ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 1.5rem; }
+.doctoc li { break-inside: avoid; }
+.doc blockquote {
+  background: var(--card);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  margin: 1rem 0;
+  padding: 0.7rem 1rem;
+}
+.doc blockquote p { margin: 0; }
+.doc blockquote footer { color: var(--muted); font-size: 0.92rem; margin-top: 0.4rem; }
+.doclist { list-style: none; padding: 0; margin: 0.5rem 0; }
+.doclist li { padding: 0.7rem 0; border-bottom: 1px solid #efe6d3; }
+.doclist li:last-child { border-bottom: 0; }
+.doclist a { font-size: 1.1rem; }
+
 @media (max-width: 640px) {
   body { font-size: 17px; }
   .masthead h1 { font-size: 1.4rem; }

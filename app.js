@@ -450,13 +450,12 @@
       return loadBibleVerses().then(function () {
         var q = query.toLowerCase();
         var matches = [];
-        for (var i = 0; i < bibleVerses.length; i++) {
-          if (bibleVerses[i][1].toLowerCase().indexOf(q) !== -1) matches.push(bibleVerses[i]);
-          if (matches.length >= 100) break;
-        }
         var total = 0;
-        for (var j = 0; j < bibleVerses.length; j++) {
-          if (bibleVerses[j][1].toLowerCase().indexOf(q) !== -1) total++;
+        for (var i = 0; i < bibleVerses.length; i++) {
+          if (bibleVerses[i][1].toLowerCase().indexOf(q) !== -1) {
+            total++;
+            if (matches.length < 100) matches.push(bibleVerses[i]);
+          }
         }
         var html = '<section class="bible"><h2>&ldquo;' + esc(query) + "&rdquo; in the Bible</h2>";
         if (!total) {
@@ -483,6 +482,43 @@
     });
   }
 
+  /* ---- Founding Documents ---- */
+
+  var documentsIndex = null, documentsPromise = null;
+
+  function loadDocuments() {
+    if (!documentsPromise) {
+      documentsPromise = fetch("data/documents.json")
+        .then(function (r) {
+          if (!r.ok) throw new Error("documents.json failed: " + r.status);
+          return r.json();
+        })
+        .then(function (data) { documentsIndex = data; return data; });
+    }
+    return documentsPromise;
+  }
+
+  function renderDocumentsHome() {
+    main.innerHTML = '<p class="loading">Loading the founding documents&hellip;</p>';
+    loadDocuments().then(function () {
+      var html = '<section class="bible"><h2>Founding Documents</h2>' +
+        "<p>America's founding documents, free to read. The texts are in the public domain, " +
+        "transcribed as printed, with original spellings kept.</p>" +
+        '<p><a href="docs/christian-nation.html"><strong>God and Faith in the Founding Documents</strong></a> &mdash; ' +
+        "every reference to God and faith in these documents, quoted word for word.</p>" +
+        '<ul class="doclist">';
+      documentsIndex.forEach(function (d) {
+        html += '<li><a href="docs/' + d.slug + '.html">' + esc(d.title) + " (" + esc(d.year) + ")</a><br>" +
+          esc(d.description) + "</li>";
+      });
+      html += "</ul></section>";
+      main.innerHTML = html;
+      document.title = "Founding Documents — Webster's 1828 Dictionary";
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load the founding documents. Please try again.</p>';
+    });
+  }
+
   function route() {
     var hash = location.hash || "#/";
     var parts = hash.replace(/^#\/?/, "").split("/");
@@ -504,6 +540,9 @@
       } else {
         renderBibleHome();
       }
+    } else if (kind === "documents") {
+      document.title = "Founding Documents — Webster's 1828 Dictionary";
+      renderDocumentsHome();
     } else if (kind === "about") {
       document.title = "About — Webster's 1828 Dictionary";
       renderAbout();

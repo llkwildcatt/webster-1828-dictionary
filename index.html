@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webster's 1828 Dictionary</title>
+<meta name="description" content="Noah Webster's An American Dictionary of the English Language, 1828. Free for everyone.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <h1><a href="#/">Webster's 1828 Dictionary</a></h1>
+    <p class="subtitle">Noah Webster's <i>An American Dictionary of the English Language</i>, 1828</p>
+    <form id="search-form" autocomplete="off">
+      <label class="visually-hidden" for="search-box">Look up a word</label>
+      <input id="search-box" type="search" placeholder="Look up a word&hellip; e.g. cool, law, abandon" aria-label="Look up a word">
+      <button type="submit">Search</button>
+    </form>
+    <div id="suggestions" class="suggestions" hidden></div>
+    <nav class="letters" id="letters" aria-label="Browse by letter"></nav>
+  </div>
+</header>
+
+<main id="main">
+  <p class="loading">Loading the dictionary&hellip;</p>
+</main>
+
+<footer>
+  <p>The text of Webster's 1828 dictionary is in the public domain. This site is free for everyone.</p>
+  <p><a href="#/about">About this site</a> &middot; <a href="https://1828.mshaffer.com" rel="noopener">1828.mshaffer.com</a> &middot; <a href="https://github.com/DataWar/1828-dictionary/pull/1" rel="noopener">Corrections on GitHub</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

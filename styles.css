@@ -1,0 +1,151 @@
+/* Webster's 1828 Dictionary — plain, book-like, readable on phone and computer. */
+:root {
+  --ink: #1f1a14;
+  --paper: #fdf8ef;
+  --accent: #7a4a1f;
+  --muted: #6b5d4f;
+  --line: #d8cbb6;
+  --card: #fffdf7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+a { color: var(--accent); }
+a:hover { text-decoration: underline; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.masthead {
+  background: #2e2118;
+  color: #f3e9d7;
+  padding: 1.4rem 1rem 1.2rem;
+}
+.masthead-inner { max-width: 760px; margin: 0 auto; }
+.masthead h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; font-weight: normal; }
+.masthead h1 a { color: #f3e9d7; text-decoration: none; }
+.masthead h1 a:hover { text-decoration: underline; }
+.subtitle { margin: 0.2rem 0 1rem; color: #cbb894; font-size: 1rem; }
+
+#search-form { display: flex; gap: 0.5rem; }
+#search-box {
+  flex: 1;
+  font-family: inherit;
+  font-size: 1.05rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #6b5d4f;
+  border-radius: 4px;
+  background: #fffdf7;
+  color: var(--ink);
+}
+#search-form button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid #6b5d4f;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+#search-form button:hover { background: #8d5a28; }
+
+.suggestions {
+  margin-top: 0.3rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.suggestions a {
+  display: block;
+  padding: 0.45rem 0.8rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid #efe6d3;
+}
+.suggestions a:last-child { border-bottom: 0; }
+.suggestions a:hover, .suggestions a:focus { background: #f3e9d7; }
+
+.letters { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.letters a {
+  color: #e8d9bd;
+  text-decoration: none;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+  font-size: 0.95rem;
+}
+.letters a:hover { background: #4a3826; color: #fff; }
+
+main { max-width: 760px; margin: 0 auto; padding: 1.4rem 1rem 2rem; }
+.loading, .error { color: var(--muted); }
+
+.entry h2 {
+  font-size: 1.9rem;
+  margin: 0 0 0.6rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+}
+.entry .definition { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.2rem; }
+.entry .definition p { margin: 0.6rem 0; }
+.entry .definition p:first-child { margin-top: 0; }
+.entry .definition p:last-child { margin-bottom: 0; }
+.entry .definition hr { border: 0; border-top: 1px solid var(--line); margin: 1rem 0; }
+
+.wordnav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; font-size: 0.95rem; }
+.wordnav a { text-decoration: none; }
+.wordnav a:hover { text-decoration: underline; }
+
+.home h2, .about h2, .browse h2 { font-size: 1.5rem; font-weight: normal; margin: 0 0 0.6rem; }
+.home p, .about p { margin: 0.6rem 0; }
+.home .random { margin-top: 1.2rem; }
+.home .random button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--accent);
+  cursor: pointer;
+}
+.home .random button:hover { background: #f3e9d7; }
+
+.wordlist { columns: 3; column-gap: 1.5rem; list-style: none; padding: 0; margin: 0.5rem 0; }
+.wordlist li { break-inside: avoid; }
+.wordlist a { text-decoration: none; color: var(--ink); }
+.wordlist a:hover { color: var(--accent); text-decoration: underline; }
+
+.notfound h2 { font-size: 1.5rem; font-weight: normal; }
+.notfound ul { padding-left: 1.2rem; }
+
+footer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  border-top: 1px solid var(--line);
+}
+footer p { margin: 0.6rem 0; }
+
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  .masthead h1 { font-size: 1.4rem; }
+  .wordlist { columns: 2; }
+  .entry h2 { font-size: 1.6rem; }
+}

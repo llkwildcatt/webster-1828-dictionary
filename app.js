@@ -100,6 +100,21 @@
 
   function renderHome() {
     main.innerHTML =
+      '<section class="bible-feature">' +
+      "<h2>The Holy Bible</h2>" +
+      "<p>King James Version &mdash; the whole Bible, free to read and search. 66 books, 1,189 chapters, 31,102 verses.</p>" +
+      '<form id="bible-ref-form" autocomplete="off">' +
+      '<label class="visually-hidden" for="bible-ref-box">Look up a Bible passage</label>' +
+      '<input id="bible-ref-box" type="text" placeholder="Look up a passage&hellip; e.g. John 3:16" aria-label="Look up a Bible passage">' +
+      "<button type=\"submit\">Read</button>" +
+      "</form>" +
+      '<form id="bible-word-form" autocomplete="off">' +
+      '<label class="visually-hidden" for="bible-word-box">Search the Bible for a word</label>' +
+      '<input id="bible-word-box" type="search" placeholder="Search the Bible for a word&hellip; e.g. faith" aria-label="Search the Bible for a word">' +
+      "<button type=\"submit\">Search</button>" +
+      "</form>" +
+      '<p><a href="#/bible/">Browse all 66 books</a></p>' +
+      "</section>" +
       '<section class="home">' +
       "<h2>Look up a word as Webster defined it in 1828</h2>" +
       "<p>Noah Webster's <i>An American Dictionary of the English Language</i> was the first American dictionary. " +
@@ -109,6 +124,18 @@
       "</section>";
     var btn = document.getElementById("random-word");
     if (btn) btn.addEventListener("click", goRandomWord);
+    var refForm = document.getElementById("bible-ref-form");
+    if (refForm) refForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var q = document.getElementById("bible-ref-box").value;
+      goBibleReference(q);
+    });
+    var wordForm = document.getElementById("bible-word-form");
+    if (wordForm) wordForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var q = document.getElementById("bible-word-box").value.trim();
+      if (q) location.hash = "#/bible/search/" + encodeURIComponent(q);
+    });
   }
 
   function goRandomWord() {
@@ -138,6 +165,10 @@
       "which keeps Webster's 1828 text in a public database. Our thanks to Monte for keeping it free.</p>" +
       "<p>Webster's spellings are his own &mdash; <i>crystalized</i>, <i>alledged</i>, <i>traffick</i> and the like " +
       "are printed as they were in 1828, not as errors.</p>" +
+      "<h2>The Holy Bible</h2>" +
+      "<p>This site also carries the whole King James Version of the Bible &mdash; 66 books, 1,189 chapters, " +
+      "31,102 verses &mdash; free to read and search. The King James Version is in the public domain. " +
+      "Look up a passage like John 3:16, or search the whole Bible for a word.</p>" +
       "</section>";
   }
 
@@ -205,6 +236,253 @@
     });
   }
 
+  /* ---- Holy Bible (King James Version) ---- */
+
+  var bibleBooks = null, bibleBooksPromise = null;
+  var bibleBookCache = {};
+  var bibleVerses = null, bibleVersesPromise = null;
+
+  function loadBibleBooks() {
+    if (!bibleBooksPromise) {
+      bibleBooksPromise = fetch("data/bible/books.json")
+        .then(function (r) {
+          if (!r.ok) throw new Error("books.json failed: " + r.status);
+          return r.json();
+        })
+        .then(function (data) { bibleBooks = data; return data; });
+    }
+    return bibleBooksPromise;
+  }
+
+  function loadBibleBook(slug) {
+    if (bibleBookCache[slug]) return Promise.resolve(bibleBookCache[slug]);
+    return fetch("data/bible/" + slug + ".json")
+      .then(function (r) {
+        if (!r.ok) throw new Error("book " + slug + " failed: " + r.status);
+        return r.json();
+      })
+      .then(function (data) { bibleBookCache[slug] = data; return data; });
+  }
+
+  function loadBibleVerses() {
+    if (!bibleVersesPromise) {
+      bibleVersesPromise = fetch("data/bible/verses.json")
+        .then(function (r) {
+          if (!r.ok) throw new Error("verses.json failed: " + r.status);
+          return r.json();
+        })
+        .then(function (data) { bibleVerses = data; return data; });
+    }
+    return bibleVersesPromise;
+  }
+
+  function bibleBookBySlug(slug) {
+    if (!bibleBooks) return null;
+    for (var i = 0; i < bibleBooks.length; i++) {
+      if (bibleBooks[i].slug === slug) return bibleBooks[i];
+    }
+    return null;
+  }
+
+  function bibleBookByName(name) {
+    if (!bibleBooks) return null;
+    var n = name.trim().toLowerCase();
+    if (n === "psalm") n = "psalms";
+    for (var i = 0; i < bibleBooks.length; i++) {
+      if (bibleBooks[i].name.toLowerCase() === n) return bibleBooks[i];
+    }
+    return null;
+  }
+
+  function parseReference(q) {
+    // Accepts "John 3:16", "1 John 3:16", "Psalms 23", "Genesis 1:1".
+    if (!bibleBooks || !q) return null;
+    var text = q.trim();
+    var best = null, bestLen = 0;
+    for (var i = 0; i < bibleBooks.length; i++) {
+      var name = bibleBooks[i].name;
+      if (text.toLowerCase().indexOf(name.toLowerCase()) === 0 && name.length > bestLen) {
+        best = bibleBooks[i]; bestLen = name.length;
+      }
+    }
+    if (!best && text.toLowerCase().indexOf("psalm") === 0) {
+      best = bibleBookByName("Psalms"); bestLen = 5;
+    }
+    if (!best) return null;
+    var rest = text.slice(bestLen).trim();
+    var m = rest.match(/^(\d+)\s*:\s*(\d+)$/) || rest.match(/^(\d+)$/);
+    if (!m) return null;
+    var chapter = parseInt(m[1], 10);
+    var verse = m[2] ? parseInt(m[2], 10) : null;
+    if (chapter < 1 || chapter > best.chapters) return null;
+    return { book: best, chapter: chapter, verse: verse };
+  }
+
+  function goBibleReference(q) {
+    loadBibleBooks().then(function () {
+      var ref = parseReference(q);
+      if (!ref) {
+        location.hash = "#/bible/search/" + encodeURIComponent(q.trim());
+        return;
+      }
+      var hash = "#/bible/" + ref.book.slug + "/" + ref.chapter;
+      if (ref.verse) hash += "/" + ref.verse;
+      location.hash = hash;
+    });
+  }
+
+  function refFromId(id) {
+    var bookIdx = Math.floor(id / 1000000);
+    var chapter = Math.floor((id % 1000000) / 1000);
+    var verse = id % 1000;
+    var book = bibleBooks ? bibleBooks[bookIdx] : null;
+    return { book: book, chapter: chapter, verse: verse };
+  }
+
+  function renderBibleHome() {
+    main.innerHTML = '<p class="loading">Loading the Bible&hellip;</p>';
+    loadBibleBooks().then(function () {
+      var ot = bibleBooks.filter(function (b) { return b.testament === "OT"; });
+      var nt = bibleBooks.filter(function (b) { return b.testament === "NT"; });
+      function list(books) {
+        var html = '<ul class="booklist">';
+        books.forEach(function (b) {
+          html += '<li><a href="#/bible/' + b.slug + '/">' + esc(b.name) +
+            " (" + b.chapters + ")</a></li>";
+        });
+        return html + "</ul>";
+      }
+      var html = '<section class="bible"><h2>The Holy Bible &mdash; King James Version</h2>' +
+        "<p>The whole Bible, free to read and search. 66 books, 1,189 chapters, 31,102 verses. " +
+        "The King James Version is in the public domain.</p>" +
+        '<form id="bible-word-form2" autocomplete="off">' +
+        '<label class="visually-hidden" for="bible-word-box2">Search the Bible for a word</label>' +
+        '<input id="bible-word-box2" type="search" placeholder="Search the Bible for a word or phrase&hellip;" aria-label="Search the Bible for a word or phrase">' +
+        "<button type=\"submit\">Search</button>" +
+        "</form>" +
+        "<h3>Old Testament</h3>" + list(ot) +
+        "<h3>New Testament</h3>" + list(nt) +
+        "</section>";
+      main.innerHTML = html;
+      var form = document.getElementById("bible-word-form2");
+      if (form) form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var q = document.getElementById("bible-word-box2").value.trim();
+        if (q) location.hash = "#/bible/search/" + encodeURIComponent(q);
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load the Bible books. Please try again.</p>';
+    });
+  }
+
+  function renderBibleBook(slug) {
+    main.innerHTML = '<p class="loading">Loading&hellip;</p>';
+    loadBibleBooks().then(function () {
+      var book = bibleBookBySlug(slug);
+      if (!book) {
+        main.innerHTML = '<p class="error">No such book of the Bible. <a href="#/bible/">See all 66 books</a>.</p>';
+        return;
+      }
+      var html = '<section class="bible"><h2>' + esc(book.name) + "</h2>" +
+        "<p>" + (book.testament === "OT" ? "Old Testament" : "New Testament") +
+        " &middot; " + book.chapters + (book.chapters === 1 ? " chapter" : " chapters") +
+        " &middot; " + book.verses.toLocaleString() + " verses</p>" +
+        '<ul class="chapterlist">';
+      for (var c = 1; c <= book.chapters; c++) {
+        html += '<li><a href="#/bible/' + book.slug + "/" + c + '">' + c + "</a></li>";
+      }
+      html += '</ul><p><a href="#/bible/">&larr; All books</a></p></section>';
+      main.innerHTML = html;
+      document.title = book.name + " — Holy Bible (KJV)";
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that book. Please try again.</p>';
+    });
+  }
+
+  function renderBibleChapter(slug, chapter, highlightVerse) {
+    main.innerHTML = '<p class="loading">Loading&hellip;</p>';
+    loadBibleBooks().then(function () {
+      var book = bibleBookBySlug(slug);
+      if (!book || chapter < 1 || chapter > book.chapters) {
+        main.innerHTML = '<p class="error">No such chapter. <a href="#/bible/">See all 66 books</a>.</p>';
+        return;
+      }
+      return loadBibleBook(slug).then(function (data) {
+        var verses = data.chapters[chapter - 1];
+        var html = '<section class="bible"><h2>' + esc(book.name) + " " + chapter + "</h2>";
+        html += '<div class="chapter">';
+        verses.forEach(function (text, i) {
+          var v = i + 1;
+          var cls = (highlightVerse === v) ? ' class="verse highlight"' : ' class="verse"';
+          html += '<p' + cls + ' id="v' + v + '"><span class="vnum">' + v + "</span>" +
+            esc(text) + "</p>";
+        });
+        html += "</div>";
+        html += '<nav class="wordnav" aria-label="Previous and next chapters"><span>';
+        if (chapter > 1) html += '&larr; <a href="#/bible/' + slug + "/" + (chapter - 1) + '">Chapter ' + (chapter - 1) + "</a>";
+        html += '</span><span><a href="#/bible/' + slug + '/">' + esc(book.name) + "</a> &middot; ";
+        if (chapter < book.chapters) html += '<a href="#/bible/' + slug + "/" + (chapter + 1) + '">Chapter ' + (chapter + 1) + "</a> &rarr;";
+        html += "</span></nav></section>";
+        main.innerHTML = html;
+        document.title = book.name + " " + chapter + " — Holy Bible (KJV)";
+        if (highlightVerse) {
+          var el = document.getElementById("v" + highlightVerse);
+          if (el) el.scrollIntoView();
+        }
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not load that chapter. Please try again.</p>';
+    });
+  }
+
+  function highlightMatch(text, query) {
+    var safe = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    try {
+      return esc(text).replace(new RegExp("(" + safe + ")", "ig"), "<mark>$1</mark>");
+    } catch (e) {
+      return esc(text);
+    }
+  }
+
+  function renderBibleSearch(query) {
+    main.innerHTML = '<p class="loading">Searching the Bible for &ldquo;' + esc(query) + "&rdquo;&hellip;</p>";
+    loadBibleBooks().then(function () {
+      return loadBibleVerses().then(function () {
+        var q = query.toLowerCase();
+        var matches = [];
+        for (var i = 0; i < bibleVerses.length; i++) {
+          if (bibleVerses[i][1].toLowerCase().indexOf(q) !== -1) matches.push(bibleVerses[i]);
+          if (matches.length >= 100) break;
+        }
+        var total = 0;
+        for (var j = 0; j < bibleVerses.length; j++) {
+          if (bibleVerses[j][1].toLowerCase().indexOf(q) !== -1) total++;
+        }
+        var html = '<section class="bible"><h2>&ldquo;' + esc(query) + "&rdquo; in the Bible</h2>";
+        if (!total) {
+          html += "<p>No verses contain those words. Try another word or spelling.</p>";
+        } else {
+          html += "<p>" + total.toLocaleString() + (total === 1 ? " verse" : " verses") +
+            " found" + (total > 100 ? ", showing the first 100" : "") + ".</p>";
+          html += '<ul class="search-results">';
+          matches.forEach(function (row) {
+            var ref = refFromId(row[0]);
+            if (!ref.book) return;
+            html += '<li><a href="#/bible/' + ref.book.slug + "/" + ref.chapter + "/" + ref.verse + '">' +
+              esc(ref.book.name) + " " + ref.chapter + ":" + ref.verse + "</a> &mdash; " +
+              highlightMatch(row[1], query) + "</li>";
+          });
+          html += "</ul>";
+        }
+        html += '<p><a href="#/bible/">&larr; Back to the Bible</a></p></section>';
+        main.innerHTML = html;
+        document.title = "“" + query + "” — Holy Bible (KJV)";
+      });
+    }).catch(function () {
+      main.innerHTML = '<p class="error">Could not search the Bible. Please try again.</p>';
+    });
+  }
+
   function route() {
     var hash = location.hash || "#/";
     var parts = hash.replace(/^#\/?/, "").split("/");
@@ -213,6 +491,19 @@
       renderWord(normalize(decodeURIComponent(parts[1])));
     } else if (kind === "letter" && parts[1]) {
       renderLetter(parts[1].toLowerCase());
+    } else if (kind === "bible") {
+      document.title = "Holy Bible (KJV) — Webster's 1828 Dictionary";
+      if (parts[1] === "search" && parts[2]) {
+        renderBibleSearch(decodeURIComponent(parts[2]));
+      } else if (parts[1] && parts[2] && parts[3]) {
+        renderBibleChapter(parts[1], parseInt(parts[2], 10), parseInt(parts[3], 10));
+      } else if (parts[1] && parts[2]) {
+        renderBibleChapter(parts[1], parseInt(parts[2], 10), null);
+      } else if (parts[1]) {
+        renderBibleBook(parts[1]);
+      } else {
+        renderBibleHome();
+      }
     } else if (kind === "about") {
       document.title = "About — Webster's 1828 Dictionary";
       renderAbout();

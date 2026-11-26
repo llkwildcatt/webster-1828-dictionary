@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126061733";
+  var BUILD_V = "20261126064729";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -125,7 +125,8 @@
       "<h2>More dictionaries</h2>" +
       "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), " +
       "Webster's American Dictionary, 1844 edition, Webster's Revised Unabridged Dictionary, 1913, " +
-      "and John Harris's Lexicon Technicum, 1704, 1708–1710, 1716 and 1723–1725. " +
+      "Samuel Johnson's Dictionary, 1755, and John Harris's Lexicon Technicum, 1704, 1708–1710, 1716, " +
+      "1723–1725 and 1736. " +
       "All free to read and search, like the 1828.</p>" +
       '<p><a href="#/dictionaries/">Browse all eleven dictionaries</a></p>' +
       "</section>" +
@@ -138,11 +139,17 @@
       '<p><a href="#/britannica/">Browse the Britannica editions</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
+      "<h2>Chambers's Encyclopaedia</h2>" +
+      "<p>Chambers's Encyclopaedia, 1860–1868, all ten volumes — 24,786 articles, " +
+      "cleaned up word by word from the printed books. Volume 10 carries a Supplement of 1,265 articles.</p>" +
+      '<p><a href="#/chambers-encyclopaedia-1860-68/">Browse Chambers\'s Encyclopaedia</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +
       "<p>The other great reference works published before 1931 live on our second site, " +
-      "because this one can only hold so much — Chambers&rsquo;s Encyclopaedia, the Americana, " +
-      "the New International, the Catholic and Jewish encyclopedias, Johnson&rsquo;s Dictionary, " +
-      "the Century Dictionary, and more, added one at a time as they are finished.</p>" +
+      "because this one can only hold so much — the Americana, the New International, " +
+      "the Catholic and Jewish encyclopedias, the Century Dictionary, and more, " +
+      "added one at a time as they are finished.</p>" +
       '<p><a href="https://llkwildcatt.github.io/encyclopedias-and-dictionaries/">Visit the second site</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
@@ -233,14 +240,28 @@
       "3,817 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
       "are cited by letter section and headword. Unlike the earlier editions, this one really does have J and U sections. " +
       "Three entries are lost entirely and are not in this data. " +
-      "Later editions will follow, one at a time.</p>" +
+      "The 1723–1725 and 1736 editions are on this site too.</p>" +
       "<h2>Lexicon Technicum, 1723–1725</h2>" +
       "<p>John Harris's <i>Lexicon Technicum</i>, 1723–1725 — 8,706 entries, 1,266,244 words — is also on this site. " +
       "Volume 1 is the fourth edition (1725); volume 2 is the second edition (1723). The text was " +
       "machine-read from the Internet Archive copies and cleaned up word by word: 133,928 errors fixed, including " +
       "4,579 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
       "are cited by volume, letter section and headword. Seven entries are lost entirely and are not in this data. " +
-      "Later editions will follow, one at a time.</p>" +
+      "The fifth edition, 1736, is on this site too.</p>" +
+      "<h2>Lexicon Technicum, 1736</h2>" +
+      "<p>John Harris's <i>Lexicon Technicum</i>, fifth edition, London 1736 — 8,492 entries, 1,872,141 words — is also on this site. " +
+      "Volume 1 runs A–H, volume 2 runs I–Z. The text was machine-read from the Internet Archive copies and cleaned up word by word: " +
+      "155,591 errors fixed, including 8,033 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
+      "are cited by volume, letter section and headword. Unlike the earlier editions, this one really does have J and U sections, and it " +
+      "recovers entries the earlier editions lost — MACROCOSM, MACHINA Boyliana, TOPHUS, TOPOGRAPHY, TORE or Torus, and SECTA. " +
+      "Two entries are still lost (ABDOMINAL, SECONDARY Planets). The front matter was re-transcribed from the printed pages, and the " +
+      "volume 1 back matter is a booksellers' advertisement.</p>" +
+      "<h2>Chambers's Encyclopaedia, 1860–1868</h2>" +
+      "<p><i>Chambers's Encyclopaedia</i>, 1860–1868 — 24,786 articles, 9,809,976 words, in ten volumes — is also on this site. " +
+      "The text was machine-read from the 1868 issue, 'WITH SUBSEQUENT CORRECTIONS', and cleaned up word by word: 157,454 errors fixed, " +
+      "including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against " +
+      "the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such. The stress accent Chambers's prints after the " +
+      "stressed syllable has been taken off the headwords, so CA'TERPILLAR reads CATERPILLAR.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
       "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
       "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words — " +
@@ -900,21 +921,38 @@
     },
   };
 
-  var britWordsCache = {};    // slug -> [[key, display, volume, page], ...]
+  var CHAMB = {
+    "chambers-encyclopaedia-1860-68": {
+      title: "Chambers's Encyclopaedia",
+      years: "1860–1868",
+      dir: "data/chambers-encyclopaedia-1860-68",
+      count: "24,786 articles",
+      exactPages: true,
+      note: "Scanned from the 1860–1868 printed books (the 1868 issue, 'WITH SUBSEQUENT CORRECTIONS') and cleaned up word by word — 157,454 machine-reading errors fixed, including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such."
+    },
+  };
+
+  // Britannica and Chambers's share the same article machinery; the table
+  // lookup below finds the work in either table.
+  function workFor(slug) {
+    return BRIT[slug] || CHAMB[slug];
+  }
+
+  var britWordsCache = {};    // slug -> [[key, display, volume, page, supplement?], ...]
   var britWordsPromise = {};  // slug -> promise
-  var britLetterCache = {};   // slug -> {letter -> {key: [{h, c}, ...]}}
+  var britLetterCache = {};   // slug -> {letter -> {key: [{h, c, s?}, ...]}}
 
   function britKey(q) {
     return (q || "").trim().toLowerCase().replace(/[^a-z0-9]/g, "");
   }
 
   function britRoman(n) {
-    return ["", "I", "II", "III", "IV", "V"][n] || String(n);
+    return ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"][n] || String(n);
   }
 
   function loadBritWords(slug) {
     if (!britWordsPromise[slug]) {
-      britWordsPromise[slug] = fetch(bust(BRIT[slug].dir + "/words.json"))
+      britWordsPromise[slug] = fetch(bust(workFor(slug).dir + "/words.json"))
         .then(function (r) {
           if (!r.ok) throw new Error(slug + " words.json failed: " + r.status);
           return r.json();
@@ -928,7 +966,7 @@
     letter = (letter || "#").toLowerCase();
     britLetterCache[slug] = britLetterCache[slug] || {};
     if (britLetterCache[slug][letter]) return Promise.resolve(britLetterCache[slug][letter]);
-    return fetch(bust(BRIT[slug].dir + "/" + letter + ".json"))
+    return fetch(bust(workFor(slug).dir + "/" + letter + ".json"))
       .then(function (r) {
         if (!r.ok) throw new Error(slug + " letter " + letter + " failed: " + r.status);
         return r.json();
@@ -996,7 +1034,10 @@
   }
 
   function renderBritHome(slug) {
-    var d = BRIT[slug];
+    var d = workFor(slug);
+    var backLink = BRIT[slug]
+      ? '<p><a href="#/britannica/">&larr; All Britannica editions</a></p>'
+      : '<p><a href="#/">&larr; Home</a></p>';
     main.innerHTML = '<p class="loading">Loading ' + esc(d.title) + "&hellip;</p>";
     loadBritWords(slug).then(function () {
       var html = '<section class="bible"><h2>' + esc(d.title) + " (" + d.years + ")</h2>" +
@@ -1008,7 +1049,7 @@
         "</form>" +
         '<nav class="letters" aria-label="Browse by letter">' + dictLettersHtml(slug) + "</nav>" +
         '<p class="random"><button type="button" id="brit-random-article">Show me a random article</button></p>' +
-        '<p><a href="#/britannica/">&larr; All Britannica editions</a></p>' +
+        backLink +
         "</section>";
       main.innerHTML = html;
       document.title = d.title + " (" + d.years + ")";
@@ -1030,7 +1071,7 @@
   }
 
   function renderBritLetter(slug, letter) {
-    var d = BRIT[slug];
+    var d = workFor(slug);
     main.innerHTML = '<p class="loading">Loading articles beginning with ' + esc(letter.toUpperCase()) + "&hellip;</p>";
     loadBritLetter(slug, letter).then(function (entries) {
       var keys = Object.keys(entries).sort(function (a, b) { return a.localeCompare(b); });
@@ -1038,7 +1079,8 @@
       html += "<p>" + keys.length.toLocaleString() + " articles.</p>";
       html += '<ul class="wordlist">';
       keys.forEach(function (w) {
-        html += '<li><a href="#/' + slug + "/article/" + encodeURIComponent(w) + '">' + esc(entries[w][0].h) + "</a></li>";
+        var sup = entries[w].some(function (e) { return e.s; });
+        html += '<li><a href="#/' + slug + "/article/" + encodeURIComponent(w) + '">' + esc(entries[w][0].h) + "</a>" + (sup ? " (Supplement)" : "") + "</li>";
       });
       html += "</ul>";
       html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></section>";
@@ -1050,7 +1092,7 @@
   }
 
   function renderBritNotFound(slug, q) {
-    var d = BRIT[slug];
+    var d = workFor(slug);
     var list = britSuggestionsFor(slug, q, 8);
     var html = '<section class="notfound"><h2>No article for &ldquo;' + esc(q) + "&rdquo; in " + esc(d.title) + "</h2>";
     if (list.length) {
@@ -1067,7 +1109,7 @@
   }
 
   function renderBritArticle(slug, key) {
-    var d = BRIT[slug];
+    var d = workFor(slug);
     main.innerHTML = '<p class="loading">Loading &ldquo;' + esc(key) + "&rdquo;&hellip;</p>";
     loadBritWords(slug).then(function () {
       var idx = findBritArticle(slug, key);
@@ -1084,10 +1126,11 @@
         var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
         list.forEach(function (entry, i) {
           var m = meta[i];
+          var sup = (m && m[4]) || entry.s;
           if (m && m[3] != null) {
-            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + " &middot; about page " + m[3] + "</p>";
+            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + (sup ? " &middot; Supplement" : "") + " &middot; " + (d.exactPages ? "page " : "about page ") + m[3] + "</p>";
           } else if (m) {
-            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + "</p>";
+            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + (sup ? " &middot; Supplement" : "") + "</p>";
           }
           html += '<div class="definition">' + entry.c + "</div>";
         });
@@ -1143,6 +1186,15 @@
         renderBritLetter(bslug, parts[2].toLowerCase());
       } else {
         renderBritHome(bslug);
+      }
+    } else if (CHAMB[kind]) {
+      var cslug = kind;
+      if (parts[1] === "article" && parts[2]) {
+        renderBritArticle(cslug, britKey(decodeURIComponent(parts[2])));
+      } else if (parts[1] === "letter" && parts[2]) {
+        renderBritLetter(cslug, parts[2].toLowerCase());
+      } else {
+        renderBritHome(cslug);
       }
     } else if (DICTS[kind]) {
       var slug = kind;

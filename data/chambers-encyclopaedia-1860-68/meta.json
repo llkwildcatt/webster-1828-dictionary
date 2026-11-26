@@ -1,0 +1,14 @@
+{
+  "title": "Chambers's Encyclopaedia",
+  "edition": "1860-1868, 1868 issue 'WITH SUBSEQUENT CORRECTIONS'",
+  "years": "1860–1868",
+  "volumes": 10,
+  "articles": 24786,
+  "supplement_articles": 1265,
+  "words": 9809628,
+  "letters": 26,
+  "corrections": 157454,
+  "source": "HathiTrust record 005698265; Internet Archive chamberssencyclo01lond-10lond (Cornell/UCLA, 1868 issue); Wellcome b3377920x_0001-_0010 (1860 first issue) as reading aid only",
+  "pages_note": "Article page numbers are the exact printed folios, validated against 12 printed pages read as images.",
+  "supplement_note": "Volume 10 carries a Supplement (1,265 articles, flagged 'supplement': true). Supplement articles are marked on their pages and in the letter lists."
+}

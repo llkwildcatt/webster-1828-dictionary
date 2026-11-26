@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126114208";
+  var BUILD_V = "20261126114730";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -984,7 +984,16 @@
   }
 
   function britRoman(n) {
-    return ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"][n] || String(n);
+    n = +n;
+    if (!n || n < 1) return String(n);
+    var table = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
+    var out = "";
+    var rest = n;
+    while (rest >= 10) { out += "X"; rest -= 10; }
+    table.forEach(function (pair) {
+      while (rest >= pair[0]) { out += pair[1]; rest -= pair[0]; }
+    });
+    return out;
   }
 
   function loadBritWords(slug) {

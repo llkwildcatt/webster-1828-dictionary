@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126064729";
+  var BUILD_V = "20261126085934";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -125,10 +125,11 @@
       "<h2>More dictionaries</h2>" +
       "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), " +
       "Webster's American Dictionary, 1844 edition, Webster's Revised Unabridged Dictionary, 1913, " +
-      "Samuel Johnson's Dictionary, 1755, and John Harris's Lexicon Technicum, 1704, 1708–1710, 1716, " +
+      "Samuel Johnson's Dictionary, 1755, the Century Dictionary and Cyclopedia, c. 1895, " +
+      "and John Harris's Lexicon Technicum, 1704, 1708–1710, 1716, " +
       "1723–1725 and 1736. " +
       "All free to read and search, like the 1828.</p>" +
-      '<p><a href="#/dictionaries/">Browse all eleven dictionaries</a></p>' +
+      '<p><a href="#/dictionaries/">Browse all twelve dictionaries</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
@@ -148,7 +149,7 @@
       "<h2>More encyclopaedias and dictionaries</h2>" +
       "<p>The other great reference works published before 1931 live on our second site, " +
       "because this one can only hold so much — the Americana, the New International, " +
-      "the Catholic and Jewish encyclopedias, the Century Dictionary, and more, " +
+      "the Catholic and Jewish encyclopedias, and more, " +
       "added one at a time as they are finished.</p>" +
       '<p><a href="https://llkwildcatt.github.io/encyclopedias-and-dictionaries/">Visit the second site</a></p>' +
       "</section>" +
@@ -262,6 +263,13 @@
       "including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against " +
       "the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such. The stress accent Chambers's prints after the " +
       "stressed syllable has been taken off the headwords, so CA'TERPILLAR reads CATERPILLAR.</p>" +
+      "<h2>The Century Dictionary and Cyclopedia, c. 1895</h2>" +
+      "<p><i>The Century Dictionary and Cyclopedia</i>, prepared under William Dwight Whitney and published by the Century Co., " +
+      "New York (copyright 1889) — 192,980 entries, 18,212,236 words, in ten volumes, the last two a Cyclopedia of Names — is also on this site. " +
+      "The text was machine-read from the Internet Archive copies and cleaned up word by word: 837,129 errors fixed, including 15,416 by reading " +
+      "the sentence around each garbled word. Entries are cited by volume and printed page number; a few page numbers are interpolated where the " +
+      "scan did not read one. The entry count is a lower bound — the parser missed cross-references, some proper names, and entries whose headwords " +
+      "the print destroyed, and their text stays inside neighbouring entries.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
       "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
       "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words — " +
@@ -665,6 +673,10 @@
       dir: "data/lexicon-technicum-1736", count: "8,492 entries",
       letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
       note: "John Harris's Lexicon Technicum, fifth edition, London 1736 — volume 1 runs A–H, volume 2 runs I–Z. Scanned from the Internet Archive copies and cleaned up word by word — 155,591 machine-reading errors fixed (Nov 2026), including 8,033 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Unlike the earlier editions, this one really does have J and U sections. Long-lost entries recovered here: MACROCOSM, MACHINA Boyliana, TOPHUS, TOPOGRAPHY, TORE or Torus, and SECTA. Two entries are still lost (ABDOMINAL, SECONDARY Planets). The PRINTING and PRINTS articles were not split from the PRINCIPLE entry by the parser — their text is inside it. The front matter was re-transcribed from the printed pages in November 2026; the volume 1 back matter is a booksellers' advertisement." },
+    "century-dictionary-c1895": { title: "The Century Dictionary and Cyclopedia", year: "c. 1895",
+      dir: "data/century-dictionary-c1895", count: "192,980 entries",
+      letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
+      note: "The Century Dictionary and Cyclopedia, prepared under William Dwight Whitney and published by the Century Co., New York (copyright 1889) — ten volumes, the last two a Cyclopedia of Names. Scanned from the Internet Archive copies and cleaned up word by word — 837,129 machine-reading errors fixed (Nov 2026), including 15,416 by reading the sentence around each garbled word. Entries are cited by volume and printed page number; a few page numbers are interpolated where the scan did not read one. 192,980 entries were parsed, a lower bound — the parser missed cross-references, some proper names, and entries whose headwords the print destroyed, and their text stays inside neighbouring entries. One oddity: hundreds of place entries in the Cyclopedia of Names open with a 'Population (1890)…' line, so they all file under the headword POPULATION." },
   };
 
   var dictWordsCache = {};    // slug -> [[key, display], ...]
@@ -742,7 +754,7 @@
 
   function renderDictionariesHome() {
     var html = '<section class="bible"><h2>Dictionaries</h2>' +
-      "<p>Eleven dictionaries, all in the public domain, all free to read and search.</p>" +
+      "<p>Twelve dictionaries, all in the public domain, all free to read and search.</p>" +
       '<ul class="doclist">' +
       '<li><a href="#/">Webster\'s 1828 Dictionary</a><br>Noah Webster\'s <i>An American Dictionary of the English Language</i>, 1828. About 61,500 words, checked word by word against the printed pages, with 491 machine-reading errors fixed.</li>';
     Object.keys(DICTS).forEach(function (slug) {
@@ -829,17 +841,22 @@
         if (!hasVol && idx >= 0 && index[idx][2]) {
           var row = index[idx];
           if (row.length > 4 && row[4] != null) {
-            var vol = row[3] === 1 ? "Volume I" : row[3] === 2 ? "Volume II" : "Volume " + row[3];
+            var vol = "Volume " + britRoman(row[3]);
             html += '<p class="article-meta">' + vol + " &middot; p. " + esc(String(row[4])) + "</p>";
           } else {
             html += '<p class="article-meta">Section ' + esc(row[2]) + "</p>";
           }
         }
-        list.forEach(function (entry) {
+        list.forEach(function (entry, i) {
           if (entry.v) {
-            var vol = entry.v === 1 ? "Volume I" : entry.v === 2 ? "Volume II" : "Volume " + entry.v;
-            var sec = (idx >= 0 && index[idx][2]) ? " &middot; Section " + esc(index[idx][2]) : "";
-            html += '<p class="article-meta">' + vol + sec + "</p>";
+            var row = (idx >= 0 && index[idx + i] && index[idx + i][0] === exact) ? index[idx + i] : null;
+            var vol = "Volume " + britRoman(entry.v);
+            if (row && row.length > 4 && row[4] != null) {
+              html += '<p class="article-meta">' + vol + " &middot; p. " + esc(String(row[4])) + "</p>";
+            } else {
+              var sec = (idx >= 0 && index[idx][2]) ? " &middot; Section " + esc(index[idx][2]) : "";
+              html += '<p class="article-meta">' + vol + sec + "</p>";
+            }
           }
           html += '<div class="definition">' + entry.c + "</div>";
         });

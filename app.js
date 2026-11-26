@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261125232430";
+  var BUILD_V = "20261126011906";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -125,9 +125,9 @@
       "<h2>More dictionaries</h2>" +
       "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), " +
       "Webster's American Dictionary, 1844 edition, Webster's Revised Unabridged Dictionary, 1913, " +
-      "and John Harris's Lexicon Technicum, 1704. " +
+      "and John Harris's Lexicon Technicum, 1704 and 1708–1710. " +
       "All free to read and search, like the 1828.</p>" +
-      '<p><a href="#/dictionaries/">Browse all six dictionaries</a></p>' +
+      '<p><a href="#/dictionaries/">Browse all seven dictionaries</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
@@ -210,7 +210,15 @@
       "and mathematics. The text was machine-read from the ETH-Bibliothek Z&uuml;rich copy and cleaned up word by " +
       "word: 13,041 errors fixed, including 465 by reading the sentence around each garbled word. The book has no " +
       "printed page numbers, so entries are cited by letter section and headword. Two entries are lost entirely " +
-      "and are not in this data. Later editions will follow, one at a time.</p>" +
+      "and are not in this data. The next edition, 1708–1710, is on this site too.</p>" +
+      "<h2>Lexicon Technicum, 1708–1710</h2>" +
+      "<p>John Harris's <i>Lexicon Technicum</i>, 1708–1710 — 9,395 entries, 1,507,812 words — is also on this site. " +
+      "Volume 1 is the second edition (1708); volume 2 is the first edition of that volume (1710). The text was " +
+      "machine-read from the Internet Archive copies and cleaned up word by word: 114,314 errors fixed, including " +
+      "2,313 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
+      "are cited by volume, letter section and headword. Volume 2 holds some very long table regions the parser " +
+      "could not separate; they are kept whole rather than split by guesswork. Later editions will follow, one " +
+      "at a time.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
       "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
       "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words — " +
@@ -594,6 +602,10 @@
       dir: "data/lexicon-technicum-1704", count: "5,632 entries",
       letters: "abcdefghiklmnopqrstvwxyz",
       note: "John Harris's Lexicon Technicum, first edition, London 1704 — widely considered the first alphabetical encyclopedia written in English, heavy on science and mathematics. Scanned from the ETH-Bibliothek Zürich copy and cleaned up word by word — 13,041 machine-reading errors fixed (Nov 2026), including 465 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by letter section and headword. Two entries are lost entirely and are not in this data." },
+    "lexicon-technicum-1708-1710": { title: "Lexicon Technicum", year: "1708–1710",
+      dir: "data/lexicon-technicum-1708-1710", count: "9,395 entries",
+      letters: "abcdefghiklmnopqrstvwxyz", frontmatter: true,
+      note: "John Harris's Lexicon Technicum, 1708–1710 — volume 1 is the second edition (1708), volume 2 the first edition of that volume (1710). Scanned from the Internet Archive copies and cleaned up word by word — 114,314 machine-reading errors fixed (Nov 2026), including 2,313 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Volume 2 holds some very long table regions the parser could not separate; they are kept whole." },
   };
 
   var dictWordsCache = {};    // slug -> [[key, display], ...]
@@ -671,7 +683,7 @@
 
   function renderDictionariesHome() {
     var html = '<section class="bible"><h2>Dictionaries</h2>' +
-      "<p>Six dictionaries, all in the public domain, all free to read and search.</p>" +
+      "<p>Seven dictionaries, all in the public domain, all free to read and search.</p>" +
       '<ul class="doclist">' +
       '<li><a href="#/">Webster\'s 1828 Dictionary</a><br>Noah Webster\'s <i>An American Dictionary of the English Language</i>, 1828. About 61,500 words, checked word by word against the printed pages, with 491 machine-reading errors fixed.</li>';
     Object.keys(DICTS).forEach(function (slug) {
@@ -697,6 +709,7 @@
         "</form>" +
         '<nav class="letters" aria-label="Browse by letter">' + dictLettersHtml(slug) + "</nav>" +
         '<p class="random"><button type="button" id="dict-random-word">Show me a random word</button></p>' +
+        (d.frontmatter ? '<p><a href="#/' + slug + '/word/frontmatter">Front matter</a> &middot; <a href="#/' + slug + '/word/backmatter">Back matter</a></p>' : "") +
         '<p><a href="#/dictionaries/">&larr; All dictionaries</a></p>' +
         "</section>";
       main.innerHTML = html;
@@ -739,23 +752,30 @@
     var d = DICTS[slug];
     main.innerHTML = '<p class="loading">Loading &ldquo;' + esc(word) + "&rdquo;&hellip;</p>";
     loadDictWords(slug).then(function () {
-      var exact = findDictWord(slug, word);
-      if (!exact) { renderDictNotFound(slug, word); return; }
       var index = dictWordsCache[slug];
+      var exact = findDictWord(slug, word);
       var idx = -1;
-      for (var i = 0; i < index.length; i++) {
-        if (index[i][0] === exact) { idx = i; break; }
+      if (exact) {
+        for (var i = 0; i < index.length; i++) {
+          if (index[i][0] === exact) { idx = i; break; }
+        }
       }
       function showDictEntries(entries) {
-        var list = entries[exact];
+        var list = entries[exact || word];
         if (!list || !list.length) { renderDictNotFound(slug, word); return; }
         var prev = idx > 0 ? index[idx - 1] : null;
         var next = idx >= 0 && idx < index.length - 1 ? index[idx + 1] : null;
         var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
-        if (idx >= 0 && index[idx][2]) {
+        var hasVol = list.some(function (e) { return e.v; });
+        if (!hasVol && idx >= 0 && index[idx][2]) {
           html += '<p class="article-meta">Section ' + esc(index[idx][2]) + "</p>";
         }
         list.forEach(function (entry) {
+          if (entry.v) {
+            var vol = entry.v === 1 ? "Volume I" : entry.v === 2 ? "Volume II" : "Volume " + entry.v;
+            var sec = (idx >= 0 && index[idx][2]) ? " &middot; Section " + esc(index[idx][2]) : "";
+            html += '<p class="article-meta">' + vol + sec + "</p>";
+          }
           html += '<div class="definition">' + entry.c + "</div>";
         });
         html += '<nav class="wordnav" aria-label="Previous and next words"><span>';
@@ -766,6 +786,16 @@
         html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></article>";
         main.innerHTML = html;
         document.title = list[0].h + " — " + d.title;
+      }
+      if (!exact) {
+        // Front and back matter live in their own files, not in words.json.
+        if (d.frontmatter && (word === "frontmatter" || word === "backmatter")) {
+          return loadDictLetter(slug, word).then(function (entries) {
+            if (entries[word] && entries[word].length) { showDictEntries(entries); return; }
+            renderDictNotFound(slug, word);
+          });
+        }
+        renderDictNotFound(slug, word); return;
       }
       return loadDictLetter(slug, firstLetter(exact)).then(function (entries) {
         if (entries[exact] && entries[exact].length) { showDictEntries(entries); return; }

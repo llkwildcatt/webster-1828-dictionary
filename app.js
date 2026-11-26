@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126042352";
+  var BUILD_V = "20261126043455";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -127,7 +127,7 @@
       "Webster's American Dictionary, 1844 edition, Webster's Revised Unabridged Dictionary, 1913, " +
       "and John Harris's Lexicon Technicum, 1704, 1708–1710, 1716 and 1723–1725. " +
       "All free to read and search, like the 1828.</p>" +
-      '<p><a href="#/dictionaries/">Browse all nine dictionaries</a></p>' +
+      '<p><a href="#/dictionaries/">Browse all ten dictionaries</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
@@ -608,6 +608,10 @@
   /* ---- Additional dictionaries (Black's 1st/2nd, Webster 1844/1913) ---- */
 
   var DICTS = {
+    "johnson-dictionary-1755": { title: "Johnson's Dictionary", year: "1755",
+      dir: "data/johnson-dictionary-1755", count: "32,890 entries",
+      letters: "abcdefghijklmnopqrstuvwxyz",
+      note: "Samuel Johnson's A Dictionary of the English Language, first edition, London 1755 — two volumes, A–K and L–Z. Scanned from the Internet Archive copies and cleaned up word by word — 408,227 machine-reading errors fixed (Nov 2026), including 18,902 by reading the sentence around each garbled word. Entries are cited by volume and printed page number. 32,890 entries were parsed; the books are usually said to hold about 42,773, so some entries were missed by the parser — their text is still in the cleaned file in reading order." },
     "blacks-1st": { title: "Black's Law Dictionary, 1st edition", year: "1891",
       dir: "data/blacks-1st", count: "15,934 words",
       note: "Scanned from the 1891 printed book and corrected against two other scans of the same book — 1,766 OCR errors fixed (Nov 2026). A word can still be misread here and there." },
@@ -713,7 +717,7 @@
 
   function renderDictionariesHome() {
     var html = '<section class="bible"><h2>Dictionaries</h2>' +
-      "<p>Nine dictionaries, all in the public domain, all free to read and search.</p>" +
+      "<p>Ten dictionaries, all in the public domain, all free to read and search.</p>" +
       '<ul class="doclist">' +
       '<li><a href="#/">Webster\'s 1828 Dictionary</a><br>Noah Webster\'s <i>An American Dictionary of the English Language</i>, 1828. About 61,500 words, checked word by word against the printed pages, with 491 machine-reading errors fixed.</li>';
     Object.keys(DICTS).forEach(function (slug) {
@@ -798,7 +802,13 @@
         var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
         var hasVol = list.some(function (e) { return e.v; });
         if (!hasVol && idx >= 0 && index[idx][2]) {
-          html += '<p class="article-meta">Section ' + esc(index[idx][2]) + "</p>";
+          var row = index[idx];
+          if (row.length > 4 && row[4] != null) {
+            var vol = row[3] === 1 ? "Volume I" : row[3] === 2 ? "Volume II" : "Volume " + row[3];
+            html += '<p class="article-meta">' + vol + " &middot; p. " + esc(String(row[4])) + "</p>";
+          } else {
+            html += '<p class="article-meta">Section ' + esc(row[2]) + "</p>";
+          }
         }
         list.forEach(function (entry) {
           if (entry.v) {

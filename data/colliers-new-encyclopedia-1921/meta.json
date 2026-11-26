@@ -1,0 +1,27 @@
+{
+  "title": "Collier's New Encyclopedia",
+  "edition": "1921, 10 volumes",
+  "years": "1921",
+  "volumes": 10,
+  "articles": 24380,
+  "words": 3782596,
+  "letters": 26,
+  "corrections": 86093,
+  "corrections_note": "85,411 by the cleanup engine + 566 by the Wikisource cross-check + 97 headwords + 19 by the proofread pass. The BENIN-page fill (benin-fill.md) restored 4 missing articles and 2 more by splitting, and fixed 6 garbled headwords, from the verified same-edition second copy and the primary page images.",
+  "source": "HathiTrust record 007697391; Internet Archive first-edition scans (P. F. Collier & Son Company, New York, 1921). Editor-in-chief Francis J. Reynolds; advisory-board chair Dr. William A. Neilson. All 10 title pages read as images. Second scans used as a check only, never merged — except the vol. 1 second copy (IA colliersnewencyc0001vari), which supplied the BENIN-page fill; see benin-fill.md.",
+  "pages_note": "Article page numbers are the exact printed folios where the leafmap could anchor them. Every volume runs folios 1-508; vol. 1 runs 1-498 after the leaf-585 plate fix (a full article page first misclassified as a plate, which had shifted every later vol. 1 folio down by one).",
+  "key_note": "Keys are lowercase with non-alphanumerics stripped, as in the Britannica/Chambers's/Catholic/New International builds. Leading digits are stripped from the KEY only (fused folio numbers); no headword in this data needed it, and the display headword is kept verbatim.",
+  "honest_limits": "Table interleaving: on pages carrying a multi-column table beside article text, the table's figures interleave with the prose (vol. 3 folio 13: the clearing-house table interleaves with CLEF and CLEMENCEAU; the DISTRICT OF COLUMBIA entry, vol. 3 p. 379, is garbled the same way). 5,232 pure-number lines remain in the text; tables keep OCR order and were not re-flowed. Vol. 3 has no second copy, so there is no same-edition source to fill from. A few footer signature lines (\"N — Vol. I — Cyc\") slipped into article text. Classification-list headword boundary is off in places (e.g. 'MOLLUSCA, ANNULOSA, MOLLUSCOIDA'); all the words are present. Numbered-definition headwords are not split (e.g. \"BATTLEMENT. (1) A wall...\" stays inside BATTLEDORE). \"VINCI, LEONARDO DA\" reads \"See LeoNARDO DA VINCI.\" (wrong case from the hyphen join). \"BOLINGBROKE, HENRY ST, JOHN\" — the normaliser turns \"ST.\" into \"ST,\". 10,301 distinct tokens in the entry text are not in the vocabulary (13,394 instances), mostly real words; the long tail of once-occurring tokens was not individually reviewed and some are certainly still garbles. 586 Wikisource articles have no text-validated match (mostly title-form differences) and 7 Wikisource sections were not extracted. Vols. 3, 4, 6, 9, 10 have no second copy of the 1921 edition. Weak anchoring: vol. 3 has the lowest leafmap anchor agreement (93.2%), then vol. 4 (94.6%) and vol. 6 (94.8%) — all above 93% with no persistent shifts, but their folio assignments rest more on counting than on running-head confirmation. Inline folio numbers disagree by +/-1 in places (an article spanning a page break: our page is where the headword appears). Front matter (title page, introduction) was not run through the cleanup engine. The BENIN page (vol. 1 folios 485-486) was filled from the verified same-edition second copy and the primary page images; see benin-fill.md.",
+  "per_volume": {
+    "1": 2367,
+    "2": 2575,
+    "3": 2519,
+    "4": 2398,
+    "5": 3093,
+    "6": 2553,
+    "7": 2811,
+    "8": 2333,
+    "9": 1962,
+    "10": 1769
+  }
+}

@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126140233";
+  var BUILD_V = "20261126215741";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -156,6 +156,12 @@
       "<p>The New International Encyclopaedia, 1902–1904, all seventeen volumes — 51,964 articles, " +
       "cleaned up word by word from the printed books. The country of Germany is filed under GERMAN EMPIRE, the book's own heading.</p>" +
       '<p><a href="#/new-international-encyclopaedia-1902-1904/">Browse the New International Encyclopaedia</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>Collier's New Encyclopedia</h2>" +
+      "<p>Collier's New Encyclopedia, 1921, all ten volumes — 24,380 articles, " +
+      "cleaned up word by word from the printed books. The BENIN page in volume 1 was filled from a verified same-edition second copy.</p>" +
+      '<p><a href="#/colliers-new-encyclopedia-1921/">Browse Collier\'s New Encyclopedia</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +
@@ -985,6 +991,14 @@
       count: "51,964 articles",
       exactPages: true,
       note: "Scanned from the 1902–1904 printed books (Dodd, Mead and Company, New York), first edition throughout, and cleaned up word by word — 492,741 machine-reading errors fixed, including 604 by reading the sentence around each garbled word, 18 headwords, and 406 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against the printed pages. The country of Germany is filed under GERMAN EMPIRE, the book's own heading. The AFRICA article has no headword — its text survives only in fragments."
+    },
+    "colliers-new-encyclopedia-1921": {
+      title: "Collier's New Encyclopedia",
+      years: "1921",
+      dir: "data/colliers-new-encyclopedia-1921",
+      count: "24,380 articles",
+      exactPages: true,
+      note: "Scanned from the 1921 printed books (P. F. Collier & Son Company, New York), first edition, and cleaned up word by word — 86,093 machine-reading errors fixed, including 566 by cross-check against the proofread Wikisource text and 19 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against the printed pages. The BENIN page (volume 1, folios 485–486) was filled from a verified same-edition second copy and the printed page images."
     },
   };
 

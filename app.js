@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126085934";
+  var BUILD_V = "20261126114208";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -146,10 +146,16 @@
       '<p><a href="#/chambers-encyclopaedia-1860-68/">Browse Chambers\'s Encyclopaedia</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
+      "<h2>The Catholic Encyclopedia</h2>" +
+      "<p>The Catholic Encyclopedia, 1907–1922, all seventeen volumes — 8,997 articles, " +
+      "cleaned up word by word from the printed books. Volume 16 is the Index and volume 17 the Supplement.</p>" +
+      '<p><a href="#/catholic-encyclopedia-1907-1912/">Browse the Catholic Encyclopedia</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +
       "<p>The other great reference works published before 1931 live on our second site, " +
       "because this one can only hold so much — the Americana, the New International, " +
-      "the Catholic and Jewish encyclopedias, and more, " +
+      "the Jewish Encyclopedia, and more, " +
       "added one at a time as they are finished.</p>" +
       '<p><a href="https://llkwildcatt.github.io/encyclopedias-and-dictionaries/">Visit the second site</a></p>' +
       "</section>" +
@@ -263,6 +269,11 @@
       "including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against " +
       "the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such. The stress accent Chambers's prints after the " +
       "stressed syllable has been taken off the headwords, so CA'TERPILLAR reads CATERPILLAR.</p>" +
+      "<h2>The Catholic Encyclopedia, 1907–1922</h2>" +
+      "<p><i>The Catholic Encyclopedia</i>, 1907–1922 — 8,997 articles, 15,049,546 words, in seventeen volumes — is also on this site. " +
+      "The text was machine-read from the Robert Appleton Company printed books (HathiTrust record 000867126) and cleaned up word by word: 361,150 errors fixed, " +
+      "including 119 by reading the sentence around each garbled word and 159 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against " +
+      "the printed pages. Volume 16 is the Index (1914) and volume 17 the Supplement (1922), marked as such. A few articles are still lost — 'Clandestinity' and 'Aeneas of Gaza' — and the Supplement volume holds some very long merged articles.</p>" +
       "<h2>The Century Dictionary and Cyclopedia, c. 1895</h2>" +
       "<p><i>The Century Dictionary and Cyclopedia</i>, prepared under William Dwight Whitney and published by the Century Co., " +
       "New York (copyright 1889) — 192,980 entries, 18,212,236 words, in ten volumes, the last two a Cyclopedia of Names — is also on this site. " +
@@ -947,6 +958,15 @@
       exactPages: true,
       note: "Scanned from the 1860–1868 printed books (the 1868 issue, 'WITH SUBSEQUENT CORRECTIONS') and cleaned up word by word — 157,454 machine-reading errors fixed, including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such."
     },
+    "catholic-encyclopedia-1907-1912": {
+      title: "The Catholic Encyclopedia",
+      years: "1907–1922",
+      dir: "data/catholic-encyclopedia-1907-1912",
+      count: "8,997 articles",
+      exactPages: true,
+      flagLabels: {1: "Index", 2: "Supplement"},
+      note: "Scanned from the 1907–1912 printed books (Robert Appleton Company, New York), with the Index volume (1914) and the Supplement volume (1922), and cleaned up word by word — 361,150 machine-reading errors fixed, including 119 by reading the sentence around each garbled word and 159 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against the printed pages. Volume 16 is the Index and volume 17 the Supplement, marked as such."
+    },
   };
 
   // Britannica and Chambers's share the same article machinery; the table
@@ -1096,8 +1116,9 @@
       html += "<p>" + keys.length.toLocaleString() + " articles.</p>";
       html += '<ul class="wordlist">';
       keys.forEach(function (w) {
+        var idxFlag = entries[w].some(function (e) { return e.idx; });
         var sup = entries[w].some(function (e) { return e.s; });
-        html += '<li><a href="#/' + slug + "/article/" + encodeURIComponent(w) + '">' + esc(entries[w][0].h) + "</a>" + (sup ? " (Supplement)" : "") + "</li>";
+        html += '<li><a href="#/' + slug + "/article/" + encodeURIComponent(w) + '">' + esc(entries[w][0].h) + "</a>" + (idxFlag ? " (Index)" : (sup ? " (Supplement)" : "")) + "</li>";
       });
       html += "</ul>";
       html += '<p><a href="#/' + slug + '/">&larr; ' + esc(d.title) + "</a></p></section>";
@@ -1143,11 +1164,13 @@
         var html = '<article class="entry"><h2>' + esc(list[0].h) + "</h2>";
         list.forEach(function (entry, i) {
           var m = meta[i];
-          var sup = (m && m[4]) || entry.s;
+          var tag = "";
+          if (d.flagLabels && m && m[4] != null) { tag = d.flagLabels[m[4]] || ""; }
+          else if ((m && m[4]) || entry.s) { tag = "Supplement"; }
           if (m && m[3] != null) {
-            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + (sup ? " &middot; Supplement" : "") + " &middot; " + (d.exactPages ? "page " : "about page ") + m[3] + "</p>";
+            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + (tag ? " &middot; " + tag : "") + " &middot; " + (d.exactPages ? "page " : "about page ") + m[3] + "</p>";
           } else if (m) {
-            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + (sup ? " &middot; Supplement" : "") + "</p>";
+            html += '<p class="article-meta">Volume ' + britRoman(m[2]) + (tag ? " &middot; " + tag : "") + "</p>";
           }
           html += '<div class="definition">' + entry.c + "</div>";
         });

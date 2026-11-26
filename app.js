@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126114730";
+  var BUILD_V = "20261126140233";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -152,9 +152,15 @@
       '<p><a href="#/catholic-encyclopedia-1907-1912/">Browse the Catholic Encyclopedia</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
+      "<h2>The New International Encyclopaedia</h2>" +
+      "<p>The New International Encyclopaedia, 1902–1904, all seventeen volumes — 51,964 articles, " +
+      "cleaned up word by word from the printed books. The country of Germany is filed under GERMAN EMPIRE, the book's own heading.</p>" +
+      '<p><a href="#/new-international-encyclopaedia-1902-1904/">Browse the New International Encyclopaedia</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +
       "<p>The other great reference works published before 1931 live on our second site, " +
-      "because this one can only hold so much — the Americana, the New International, " +
+      "because this one can only hold so much — the Americana, " +
       "the Jewish Encyclopedia, and more, " +
       "added one at a time as they are finished.</p>" +
       '<p><a href="https://llkwildcatt.github.io/encyclopedias-and-dictionaries/">Visit the second site</a></p>' +
@@ -274,6 +280,11 @@
       "The text was machine-read from the Robert Appleton Company printed books (HathiTrust record 000867126) and cleaned up word by word: 361,150 errors fixed, " +
       "including 119 by reading the sentence around each garbled word and 159 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against " +
       "the printed pages. Volume 16 is the Index (1914) and volume 17 the Supplement (1922), marked as such. A few articles are still lost — 'Clandestinity' and 'Aeneas of Gaza' — and the Supplement volume holds some very long merged articles.</p>" +
+      "<h2>The New International Encyclopaedia, 1902–1904</h2>" +
+      "<p><i>The New International Encyclopaedia</i>, 1902–1904 — 51,964 articles, 17,204,094 words, in seventeen volumes — is also on this site. " +
+      "The text was machine-read from the Dodd, Mead and Company printed books, first edition throughout (HathiTrust record 001461834), and cleaned up word by word: 492,741 errors fixed, " +
+      "including 604 by reading the sentence around each garbled word, 18 headwords, and 406 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against " +
+      "the printed pages. The country of Germany is filed under GERMAN EMPIRE, the book's own heading. The AFRICA article has no headword — its text survives only in fragments — and volume 14 is missing folios 59–62 from the scan.</p>" +
       "<h2>The Century Dictionary and Cyclopedia, c. 1895</h2>" +
       "<p><i>The Century Dictionary and Cyclopedia</i>, prepared under William Dwight Whitney and published by the Century Co., " +
       "New York (copyright 1889) — 192,980 entries, 18,212,236 words, in ten volumes, the last two a Cyclopedia of Names — is also on this site. " +
@@ -966,6 +977,14 @@
       exactPages: true,
       flagLabels: {1: "Index", 2: "Supplement"},
       note: "Scanned from the 1907–1912 printed books (Robert Appleton Company, New York), with the Index volume (1914) and the Supplement volume (1922), and cleaned up word by word — 361,150 machine-reading errors fixed, including 119 by reading the sentence around each garbled word and 159 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against the printed pages. Volume 16 is the Index and volume 17 the Supplement, marked as such."
+    },
+    "new-international-encyclopaedia-1902-1904": {
+      title: "The New International Encyclopaedia",
+      years: "1902–1904",
+      dir: "data/new-international-encyclopaedia-1902-1904",
+      count: "51,964 articles",
+      exactPages: true,
+      note: "Scanned from the 1902–1904 printed books (Dodd, Mead and Company, New York), first edition throughout, and cleaned up word by word — 492,741 machine-reading errors fixed, including 604 by reading the sentence around each garbled word, 18 headwords, and 406 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against the printed pages. The country of Germany is filed under GERMAN EMPIRE, the book's own heading. The AFRICA article has no headword — its text survives only in fragments."
     },
   };
 

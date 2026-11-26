@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126035519";
+  var BUILD_V = "20261126042352";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");

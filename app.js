@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261125181627";
+  var BUILD_V = "20261125232430";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -131,8 +131,9 @@
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
-      "<p>The 1st edition (1768–1771), all three volumes, and the 2nd edition (1778–1783), all ten volumes — " +
-      "22,919 articles between them, cleaned up word by word from the printed books. More editions to come, " +
+      "<p>The 1st edition (1768–1771), all three volumes, the 2nd edition (1778–1783), all ten volumes, " +
+      "and the 3rd edition (1788–1797), all eighteen volumes — " +
+      "38,388 articles between them, cleaned up word by word from the printed books. More editions to come, " +
       "one at a time, each cleaned the same way.</p>" +
       '<p><a href="#/britannica/">Browse the Britannica editions</a></p>' +
       "</section>" +
@@ -212,9 +213,10 @@
       "and are not in this data. Later editions will follow, one at a time.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
       "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
-      "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words. " +
+      "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words — " +
+      "and the 3rd edition (1788–1797), all eighteen volumes, is too — 15,469 articles, 17,287,457 words. " +
       "The text was machine-read from scans of the printed books and cleaned up word by word: 281,230 errors fixed " +
-      "in the 1st edition and 1,585,123 in the 2nd, including the long s (&fnof;) the scanner read as f, so " +
+      "in the 1st edition, 1,585,123 in the 2nd, and 2,224,385 in the 3rd, including the long s (&fnof;) the scanner read as f, so " +
       "&ldquo;fcience&rdquo; reads &ldquo;science&rdquo; again. Some words are still unresolved or garbled, and the " +
       "article page numbers are estimates. The spellings are the books' own, as printed. More editions will follow, " +
       "one at a time, each cleaned the same way.</p>" +
@@ -814,6 +816,13 @@
       dir: "data/britannica-2nd",
       count: "10,510 articles",
       note: "Scanned from the 1778–1783 printed books and cleaned up word by word — 1,585,123 machine-reading errors fixed, including the long s the scanner read as f. About 64,000 words are still unresolved or garbled; the pages run continuously 1–9199 across all ten volumes, and article page numbers are estimates."
+    },
+    "britannica-3rd": {
+      title: "Encyclopaedia Britannica, 3rd edition",
+      years: "1788–1797",
+      dir: "data/britannica-3rd",
+      count: "15,469 articles",
+      note: "Scanned from the 1788–1797 printed books and cleaned up word by word — 2,224,385 machine-reading errors fixed, including the long s the scanner read as f and errors fixed by reading the sentence around each garbled word. About one word in seventy is still unresolved or garbled; article page numbers are estimates."
     },
   };
 

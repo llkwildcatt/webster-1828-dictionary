@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126022945";
+  var BUILD_V = "20261126035519";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -125,9 +125,9 @@
       "<h2>More dictionaries</h2>" +
       "<p>Black's Law Dictionary, 1st edition (1891) and 2nd edition (1910), " +
       "Webster's American Dictionary, 1844 edition, Webster's Revised Unabridged Dictionary, 1913, " +
-      "and John Harris's Lexicon Technicum, 1704, 1708–1710 and 1723–1725. " +
+      "and John Harris's Lexicon Technicum, 1704, 1708–1710, 1716 and 1723–1725. " +
       "All free to read and search, like the 1828.</p>" +
-      '<p><a href="#/dictionaries/">Browse all eight dictionaries</a></p>' +
+      '<p><a href="#/dictionaries/">Browse all nine dictionaries</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Encyclopaedia Britannica</h2>" +
@@ -227,6 +227,13 @@
       "are cited by volume, letter section and headword. Volume 2 holds some very long table regions the parser " +
       "could not separate; they are kept whole rather than split by guesswork. Later editions will follow, one " +
       "at a time.</p>" +
+      "<h2>Lexicon Technicum, 1716</h2>" +
+      "<p>John Harris's <i>Lexicon Technicum</i>, third edition, volume 1, London 1716 — 8,429 entries, 1,042,614 words — is also on this site. " +
+      "The text was machine-read from the Internet Archive copy and cleaned up word by word: 84,060 errors fixed, including " +
+      "3,817 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
+      "are cited by letter section and headword. Unlike the earlier editions, this one really does have J and U sections. " +
+      "Three entries are lost entirely and are not in this data. " +
+      "Later editions will follow, one at a time.</p>" +
       "<h2>Lexicon Technicum, 1723–1725</h2>" +
       "<p>John Harris's <i>Lexicon Technicum</i>, 1723–1725 — 8,706 entries, 1,266,244 words — is also on this site. " +
       "Volume 1 is the fourth edition (1725); volume 2 is the second edition (1723). The text was " +
@@ -621,6 +628,10 @@
       dir: "data/lexicon-technicum-1708-1710", count: "9,395 entries",
       letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
       note: "John Harris's Lexicon Technicum, 1708–1710 — volume 1 is the second edition (1708), volume 2 the first edition of that volume (1710). Scanned from the Internet Archive copies and cleaned up word by word — 114,314 machine-reading errors fixed (Nov 2026), including 2,313 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Volume 2 holds some very long table regions the parser could not separate; they are kept whole." },
+    "lexicon-technicum-1716": { title: "Lexicon Technicum", year: "1716",
+      dir: "data/lexicon-technicum-1716", count: "8,429 entries",
+      letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
+      note: "John Harris's Lexicon Technicum, third edition, volume 1, London 1716. Scanned from the Internet Archive copy and cleaned up word by word — 84,060 machine-reading errors fixed (Nov 2026), including 3,817 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by letter section and headword. Unlike the earlier editions, this one really does have J and U sections. Three entries are lost entirely and are not in this data." },
     "lexicon-technicum-1723-1725": { title: "Lexicon Technicum", year: "1723–1725",
       dir: "data/lexicon-technicum-1723-1725", count: "8,706 entries",
       letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
@@ -702,7 +713,7 @@
 
   function renderDictionariesHome() {
     var html = '<section class="bible"><h2>Dictionaries</h2>' +
-      "<p>Eight dictionaries, all in the public domain, all free to read and search.</p>" +
+      "<p>Nine dictionaries, all in the public domain, all free to read and search.</p>" +
       '<ul class="doclist">' +
       '<li><a href="#/">Webster\'s 1828 Dictionary</a><br>Noah Webster\'s <i>An American Dictionary of the English Language</i>, 1828. About 61,500 words, checked word by word against the printed pages, with 491 machine-reading errors fixed.</li>';
     Object.keys(DICTS).forEach(function (slug) {

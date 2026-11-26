@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126011906";
+  var BUILD_V = "20261126021822";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -136,6 +136,14 @@
       "38,388 articles between them, cleaned up word by word from the printed books. More editions to come, " +
       "one at a time, each cleaned the same way.</p>" +
       '<p><a href="#/britannica/">Browse the Britannica editions</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>More encyclopaedias and dictionaries</h2>" +
+      "<p>The other great reference works published before 1931 live on our second site, " +
+      "because this one can only hold so much — Chambers&rsquo;s Encyclopaedia, the Americana, " +
+      "the New International, the Catholic and Jewish encyclopedias, Johnson&rsquo;s Dictionary, " +
+      "the Century Dictionary, and more, added one at a time as they are finished.</p>" +
+      '<p><a href="https://llkwildcatt.github.io/encyclopedias-and-dictionaries/">Visit the second site</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Follow the Dictionary on Facebook</h2>" +

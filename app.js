@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126053420";
+  var BUILD_V = "20261126061733";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -642,8 +642,8 @@
       note: "John Harris's Lexicon Technicum, 1723–1725 — volume 1 is the fourth edition (1725), volume 2 the second edition (1723). Scanned from the Internet Archive copies and cleaned up word by word — 133,928 machine-reading errors fixed (Nov 2026), including 4,579 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Seven entries are lost entirely and are not in this data; volume 2 holds some very long table regions the parser could not separate; they are kept whole." },
     "lexicon-technicum-1736": { title: "Lexicon Technicum", year: "1736",
       dir: "data/lexicon-technicum-1736", count: "8,492 entries",
-      letters: "abcdefghijklmnopqrstuvwxyz",
-      note: "John Harris's Lexicon Technicum, fifth edition, London 1736 — volume 1 runs A–H, volume 2 runs I–Z. Scanned from the Internet Archive copies and cleaned up word by word — 155,591 machine-reading errors fixed (Nov 2026), including 8,033 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Unlike the earlier editions, this one really does have J and U sections. Long-lost entries recovered here: MACROCOSM, MACHINA Boyliana, TOPHUS, TOPOGRAPHY, TORE or Torus, and SECTA. Two entries are still lost (ABDOMINAL, SECONDARY Planets). The PRINTING and PRINTS articles were not split from the PRINCIPLE entry by the parser — their text is inside it. The front matter is still raw machine reading and is being re-transcribed from the printed pages." },
+      letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
+      note: "John Harris's Lexicon Technicum, fifth edition, London 1736 — volume 1 runs A–H, volume 2 runs I–Z. Scanned from the Internet Archive copies and cleaned up word by word — 155,591 machine-reading errors fixed (Nov 2026), including 8,033 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Unlike the earlier editions, this one really does have J and U sections. Long-lost entries recovered here: MACROCOSM, MACHINA Boyliana, TOPHUS, TOPOGRAPHY, TORE or Torus, and SECTA. Two entries are still lost (ABDOMINAL, SECONDARY Planets). The PRINTING and PRINTS articles were not split from the PRINCIPLE entry by the parser — their text is inside it. The front matter was re-transcribed from the printed pages in November 2026; the volume 1 back matter is a booksellers' advertisement." },
   };
 
   var dictWordsCache = {};    // slug -> [[key, display], ...]

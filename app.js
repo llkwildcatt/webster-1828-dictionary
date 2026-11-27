@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261127022933";
+  var BUILD_V = "20261127072333";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -169,6 +169,14 @@
       "cleaned up word by word from the printed books, with its maps, portraits and full-page pictures — 245 plates in all. " +
       "It lives on its own companion site, because this one can only hold so much.</p>" +
       '<p><a href="https://llkwildcatt.github.io/world-book-1918/">Browse The World Book</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>Compton's Pictured Encyclopedia</h2>" +
+      "<p>Compton's Pictured Encyclopedia, 1st edition, c1922, seven article volumes plus a Volume 8 reference section — 2,754 articles, " +
+      "cleaned up word by word from the printed books, with its maps, portraits and full-page pictures — 201 plates in all. " +
+      "Volume 8 carries the study outlines, the history of each letter, and a 24,244-entry Fact-Index. " +
+      "It lives on its own companion site, because this one can only hold so much.</p>" +
+      '<p><a href="https://llkwildcatt.github.io/comptons-pictured-encyclopedia-1922/">Browse Compton\'s Pictured Encyclopedia</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +

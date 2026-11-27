@@ -2,7 +2,8 @@
   "edition": "1st edition",
   "years": "1768–1771",
   "volumes": 3,
-  "articles": 12409,
-  "words": 2582673,
-  "letters": 26
+  "articles": 12411,
+  "words": 2582632,
+  "letters": 26,
+  "note": "No-omission audit, 2026-11-27: 472 wrongly-changed passages restored in the cleaned text (bulk OCR fixes had clobbered genuine printed words, e.g. barks to banks, shews to news); 55 of them were missing from the article files and are restored here. Headwords recovered: A (51 words, from front matter) and ELECTRICITY (16,362 words, from ELECTORATE)."
 }

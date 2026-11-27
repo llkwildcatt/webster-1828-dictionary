@@ -6,7 +6,7 @@
   "entries": 5632,
   "dictionary_entries": 5631,
   "front_matter": 1,
-  "words": 889945,
+  "words": 889448,
   "letters": 24,
   "sections": {
     "A": 797,
@@ -43,5 +43,6 @@
     "MACHINA Boyliana",
     "MACROCOSME"
   ],
-  "lost_note": "Two entries are lost entirely (no surviving headword in the OCR); they are NOT in this data. See the cleanup report, section 6."
+  "lost_note": "Two entries are lost entirely (no surviving headword in the OCR); they are NOT in this data. See the cleanup report, section 6.",
+  "audit_note": "2026-11-27 no-omission audit: 6 wrongly-changed readings restored to the printed text (inrire→intire ×2, readied→rendred, deferentin→deferentia ×2, proud→prov'd ×2, well suppose→we'll suppose, cant→can't); see lexicon-technicum-1704/audit-restorations.md. The word total (889448) is the built-data total; it reflects the front-matter repair as well as the restorations (the repair removed 497 words of OCR garbage after the first site build, which is why the live meta.json said 889,945). Open, deliberately NOT changed in this rebuild: the engine apostrophe pass stripped ~600 period 'd-elisions (mix'd→mixd); bulk-reverting them needs a parent decision."
 }

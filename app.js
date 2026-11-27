@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261127072333";
+  var BUILD_V = "20261127161947";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -135,19 +135,19 @@
       "<h2>Encyclopaedia Britannica</h2>" +
       "<p>The 1st edition (1768–1771), all three volumes, the 2nd edition (1778–1783), all ten volumes, " +
       "and the 3rd edition (1788–1797), all eighteen volumes — " +
-      "38,388 articles between them, cleaned up word by word from the printed books. More editions to come, " +
+      "38,392 articles between them, cleaned up word by word from the printed books. More editions to come, " +
       "one at a time, each cleaned the same way.</p>" +
       '<p><a href="#/britannica/">Browse the Britannica editions</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>Chambers's Encyclopaedia</h2>" +
-      "<p>Chambers's Encyclopaedia, 1860–1868, all ten volumes — 24,786 articles, " +
+      "<p>Chambers's Encyclopaedia, 1860–1868, all ten volumes — 24,787 articles, " +
       "cleaned up word by word from the printed books. Volume 10 carries a Supplement of 1,265 articles.</p>" +
       '<p><a href="#/chambers-encyclopaedia-1860-68/">Browse Chambers\'s Encyclopaedia</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>The Catholic Encyclopedia</h2>" +
-      "<p>The Catholic Encyclopedia, 1907–1922, all seventeen volumes — 8,997 articles, " +
+      "<p>The Catholic Encyclopedia, 1907–1922, all seventeen volumes — 9,019 articles, " +
       "cleaned up word by word from the printed books. Volume 16 is the Index and volume 17 the Supplement.</p>" +
       '<p><a href="#/catholic-encyclopedia-1907-1912/">Browse the Catholic Encyclopedia</a></p>' +
       "</section>" +
@@ -255,13 +255,13 @@
       "the public domain.</p>" +
       "<h2>Lexicon Technicum, 1704</h2>" +
       "<p>John Harris's <i>Lexicon Technicum</i>, first edition, London 1704, is also on this site — 5,632 entries, " +
-      "889,937 words — widely considered the first alphabetical encyclopedia written in English, heavy on science " +
+      "889,448 words — widely considered the first alphabetical encyclopedia written in English, heavy on science " +
       "and mathematics. The text was machine-read from the ETH-Bibliothek Z&uuml;rich copy and cleaned up word by " +
       "word: 13,041 errors fixed, including 465 by reading the sentence around each garbled word. The book has no " +
       "printed page numbers, so entries are cited by letter section and headword. Two entries are lost entirely " +
       "and are not in this data. The next edition, 1708–1710, is on this site too.</p>" +
       "<h2>Lexicon Technicum, 1708–1710</h2>" +
-      "<p>John Harris's <i>Lexicon Technicum</i>, 1708–1710 — 9,395 entries, 1,507,812 words — is also on this site. " +
+      "<p>John Harris's <i>Lexicon Technicum</i>, 1708–1710 — 9,395 entries, 1,502,540 words — is also on this site. " +
       "Volume 1 is the second edition (1708); volume 2 is the first edition of that volume (1710). The text was " +
       "machine-read from the Internet Archive copies and cleaned up word by word: 114,314 errors fixed, including " +
       "2,313 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
@@ -269,21 +269,21 @@
       "could not separate; they are kept whole rather than split by guesswork. Later editions will follow, one " +
       "at a time.</p>" +
       "<h2>Lexicon Technicum, 1716</h2>" +
-      "<p>John Harris's <i>Lexicon Technicum</i>, third edition, volume 1, London 1716 — 8,429 entries, 1,042,614 words — is also on this site. " +
+      "<p>John Harris's <i>Lexicon Technicum</i>, third edition, volume 1, London 1716 — 8,429 entries, 1,019,218 words — is also on this site. " +
       "The text was machine-read from the Internet Archive copy and cleaned up word by word: 84,060 errors fixed, including " +
       "3,817 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
       "are cited by letter section and headword. Unlike the earlier editions, this one really does have J and U sections. " +
       "Three entries are lost entirely and are not in this data. " +
       "The 1723–1725 and 1736 editions are on this site too.</p>" +
       "<h2>Lexicon Technicum, 1723–1725</h2>" +
-      "<p>John Harris's <i>Lexicon Technicum</i>, 1723–1725 — 8,706 entries, 1,266,244 words — is also on this site. " +
+      "<p>John Harris's <i>Lexicon Technicum</i>, 1723–1725 — 8,706 entries, 1,265,715 words — is also on this site. " +
       "Volume 1 is the fourth edition (1725); volume 2 is the second edition (1723). The text was " +
       "machine-read from the Internet Archive copies and cleaned up word by word: 133,928 errors fixed, including " +
       "4,579 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
       "are cited by volume, letter section and headword. Seven entries are lost entirely and are not in this data. " +
       "The fifth edition, 1736, is on this site too.</p>" +
       "<h2>Lexicon Technicum, 1736</h2>" +
-      "<p>John Harris's <i>Lexicon Technicum</i>, fifth edition, London 1736 — 8,492 entries, 1,872,141 words — is also on this site. " +
+      "<p>John Harris's <i>Lexicon Technicum</i>, fifth edition, London 1736 — 8,492 entries, 1,849,596 words — is also on this site. " +
       "Volume 1 runs A–H, volume 2 runs I–Z. The text was machine-read from the Internet Archive copies and cleaned up word by word: " +
       "155,591 errors fixed, including 8,033 by reading the sentence around each garbled word. The book has no printed page numbers, so entries " +
       "are cited by volume, letter section and headword. Unlike the earlier editions, this one really does have J and U sections, and it " +
@@ -291,16 +291,16 @@
       "Two entries are still lost (ABDOMINAL, SECONDARY Planets). The front matter was re-transcribed from the printed pages, and the " +
       "volume 1 back matter is a booksellers' advertisement.</p>" +
       "<h2>Chambers's Encyclopaedia, 1860–1868</h2>" +
-      "<p><i>Chambers's Encyclopaedia</i>, 1860–1868 — 24,786 articles, 9,809,976 words, in ten volumes — is also on this site. " +
+      "<p><i>Chambers's Encyclopaedia</i>, 1860–1868 — 24,787 articles, 9,809,499 words, in ten volumes — is also on this site. " +
       "The text was machine-read from the 1868 issue, 'WITH SUBSEQUENT CORRECTIONS', and cleaned up word by word: 157,454 errors fixed, " +
       "including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against " +
       "the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such. The stress accent Chambers's prints after the " +
       "stressed syllable has been taken off the headwords, so CA'TERPILLAR reads CATERPILLAR.</p>" +
       "<h2>The Catholic Encyclopedia, 1907–1922</h2>" +
-      "<p><i>The Catholic Encyclopedia</i>, 1907–1922 — 8,997 articles, 15,049,546 words, in seventeen volumes — is also on this site. " +
+      "<p><i>The Catholic Encyclopedia</i>, 1907–1922 — 9,019 articles, 15,057,655 words, in seventeen volumes — is also on this site. " +
       "The text was machine-read from the Robert Appleton Company printed books (HathiTrust record 000867126) and cleaned up word by word: 361,150 errors fixed, " +
       "including 119 by reading the sentence around each garbled word and 159 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against " +
-      "the printed pages. Volume 16 is the Index (1914) and volume 17 the Supplement (1922), marked as such. A few articles are still lost — 'Clandestinity' and 'Aeneas of Gaza' — and the Supplement volume holds some very long merged articles.</p>" +
+      "the printed pages. Volume 16 is the Index (1914) and volume 17 the Supplement (1922), marked as such. Two long-lost articles — 'Clandestinity' and 'Aeneas of Gaza' — were recovered from a same-edition second copy in the 2026-11-27 audit, and the Supplement volume holds some very long merged articles.</p>" +
       "<h2>The New International Encyclopaedia, 1902–1904</h2>" +
       "<p><i>The New International Encyclopaedia</i>, 1902–1904 — 51,964 articles, 17,204,094 words, in seventeen volumes — is also on this site. " +
       "The text was machine-read from the Dodd, Mead and Company printed books, first edition throughout (HathiTrust record 001461834), and cleaned up word by word: 492,741 errors fixed, " +
@@ -308,15 +308,14 @@
       "the printed pages. The country of Germany is filed under GERMAN EMPIRE, the book's own heading. The AFRICA article has no headword — its text survives only in fragments — and volume 14 is missing folios 59–62 from the scan.</p>" +
       "<h2>The Century Dictionary and Cyclopedia, c. 1895</h2>" +
       "<p><i>The Century Dictionary and Cyclopedia</i>, prepared under William Dwight Whitney and published by the Century Co., " +
-      "New York (copyright 1889) — 192,980 entries, 18,212,236 words, in ten volumes, the last two a Cyclopedia of Names — is also on this site. " +
-      "The text was machine-read from the Internet Archive copies and cleaned up word by word: 837,129 errors fixed, including 15,416 by reading " +
-      "the sentence around each garbled word. Entries are cited by volume and printed page number; a few page numbers are interpolated where the " +
+      "New York (copyright 1889) — 192,925 entries, 18,199,316 words, in ten volumes, the last two a Cyclopedia of Names — is also on this site. " +
+      "The text was machine-read from the Internet Archive copies and cleaned up word by word: 745,414 errors fixed (Nov 2026; revised by the 2026-11-27 no-omission audit). Entries are cited by volume and printed page number; a few page numbers are interpolated where the " +
       "scan did not read one. The entry count is a lower bound — the parser missed cross-references, some proper names, and entries whose headwords " +
       "the print destroyed, and their text stays inside neighbouring entries.</p>" +
       "<h2>The Encyclopaedia Britannica</h2>" +
-      "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,409 articles, 2,582,673 words — " +
-      "and the 2nd edition (1778–1783), all ten volumes, is too — 10,510 articles, 10,644,920 words — " +
-      "and the 3rd edition (1788–1797), all eighteen volumes, is too — 15,469 articles, 17,287,457 words. " +
+      "<p>The 1st edition (1768–1771), all three volumes, is on this site — 12,411 articles, 2,582,632 words — " +
+      "and the 2nd edition (1778–1783), all ten volumes, is too — 10,511 articles, 10,644,785 words — " +
+      "and the 3rd edition (1788–1797), all eighteen volumes, is too — 15,470 articles, 17,287,353 words. " +
       "The text was machine-read from scans of the printed books and cleaned up word by word: 281,230 errors fixed " +
       "in the 1st edition, 1,585,123 in the 2nd, and 2,224,385 in the 3rd, including the long s (&fnof;) the scanner read as f, so " +
       "&ldquo;fcience&rdquo; reads &ldquo;science&rdquo; again. Some words are still unresolved or garbled, and the " +
@@ -688,13 +687,13 @@
       dir: "data/blacks-1st", count: "15,934 words",
       note: "Scanned from the 1891 printed book and corrected against two other scans of the same book — 1,766 OCR errors fixed (Nov 2026). A word can still be misread here and there." },
     "blacks-2nd": { title: "Black's Law Dictionary, 2nd edition", year: "1910",
-      dir: "data/blacks-2nd", count: "12,230 words",
+      dir: "data/blacks-2nd", count: "12,232 words",
       note: "Scanned from the 1910 printed book and corrected against two other scans of the same book — 6,691 OCR errors fixed (Nov 2026). A word can still be misread here and there." },
     "webster-1844": { title: "Webster's American Dictionary", year: "1844",
-      dir: "data/webster-1844", count: "46,651 words",
+      dir: "data/webster-1844", count: "48,058 words",
       note: "The 1841 revised edition, reprinted by Harper in 1844 with added appendix words. Scanned text; some words are misread." },
     "webster-1913": { title: "Webster's Revised Unabridged Dictionary", year: "1913",
-      dir: "data/webster-1913", count: "96,426 words",
+      dir: "data/webster-1913", count: "96,427 words",
       note: "From the GNU Collaborative International Dictionary (GCIDE), built from the 1913 edition. Entries only; no front matter or illustrations." },
     "lexicon-technicum-1704": { title: "Lexicon Technicum", year: "1704",
       dir: "data/lexicon-technicum-1704", count: "5,632 entries",
@@ -717,9 +716,9 @@
       letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
       note: "John Harris's Lexicon Technicum, fifth edition, London 1736 — volume 1 runs A–H, volume 2 runs I–Z. Scanned from the Internet Archive copies and cleaned up word by word — 155,591 machine-reading errors fixed (Nov 2026), including 8,033 by reading the sentence around each garbled word. The book has no printed page numbers: entries are cited by volume, letter section and headword. Unlike the earlier editions, this one really does have J and U sections. Long-lost entries recovered here: MACROCOSM, MACHINA Boyliana, TOPHUS, TOPOGRAPHY, TORE or Torus, and SECTA. Two entries are still lost (ABDOMINAL, SECONDARY Planets). The PRINTING and PRINTS articles were not split from the PRINCIPLE entry by the parser — their text is inside it. The front matter was re-transcribed from the printed pages in November 2026; the volume 1 back matter is a booksellers' advertisement." },
     "century-dictionary-c1895": { title: "The Century Dictionary and Cyclopedia", year: "c. 1895",
-      dir: "data/century-dictionary-c1895", count: "192,980 entries",
+      dir: "data/century-dictionary-c1895", count: "192,925 entries",
       letters: "abcdefghijklmnopqrstuvwxyz", frontmatter: true,
-      note: "The Century Dictionary and Cyclopedia, prepared under William Dwight Whitney and published by the Century Co., New York (copyright 1889) — ten volumes, the last two a Cyclopedia of Names. Scanned from the Internet Archive copies and cleaned up word by word — 837,129 machine-reading errors fixed (Nov 2026), including 15,416 by reading the sentence around each garbled word. Entries are cited by volume and printed page number; a few page numbers are interpolated where the scan did not read one. 192,980 entries were parsed, a lower bound — the parser missed cross-references, some proper names, and entries whose headwords the print destroyed, and their text stays inside neighbouring entries. One oddity: hundreds of place entries in the Cyclopedia of Names open with a 'Population (1890)…' line, so they all file under the headword POPULATION." },
+      note: "The Century Dictionary and Cyclopedia, prepared under William Dwight Whitney and published by the Century Co., New York (copyright 1889) — ten volumes, the last two a Cyclopedia of Names. Scanned from the Internet Archive copies and cleaned up word by word — 745,414 machine-reading errors fixed (Nov 2026; revised by the 2026-11-27 no-omission audit). Entries are cited by volume and printed page number; a few page numbers are interpolated where the scan did not read one. 192,925 entries were parsed, a lower bound — the parser missed cross-references, some proper names, and entries whose headwords the print destroyed, and their text stays inside neighbouring entries. One oddity: hundreds of place entries in the Cyclopedia of Names open with a 'Population (1890)…' line, so they all file under the headword POPULATION." },
   };
 
   var dictWordsCache = {};    // slug -> [[key, display], ...]
@@ -962,21 +961,21 @@
       title: "Encyclopaedia Britannica, 1st edition",
       years: "1768–1771",
       dir: "data/britannica-1st",
-      count: "12,409 articles",
+      count: "12,411 articles",
       note: "Scanned from the 1768–1771 printed books and cleaned up word by word — 281,230 machine-reading errors fixed, including the long s the scanner read as f. About one word in seventy is still unresolved or garbled; article page numbers are estimates."
     },
     "britannica-2nd": {
       title: "Encyclopaedia Britannica, 2nd edition",
       years: "1778–1783",
       dir: "data/britannica-2nd",
-      count: "10,510 articles",
+      count: "10,511 articles",
       note: "Scanned from the 1778–1783 printed books and cleaned up word by word — 1,585,123 machine-reading errors fixed, including the long s the scanner read as f. About 64,000 words are still unresolved or garbled; the pages run continuously 1–9199 across all ten volumes, and article page numbers are estimates."
     },
     "britannica-3rd": {
       title: "Encyclopaedia Britannica, 3rd edition",
       years: "1788–1797",
       dir: "data/britannica-3rd",
-      count: "15,469 articles",
+      count: "15,470 articles",
       note: "Scanned from the 1788–1797 printed books and cleaned up word by word — 2,224,385 machine-reading errors fixed, including the long s the scanner read as f and errors fixed by reading the sentence around each garbled word. About one word in seventy is still unresolved or garbled; article page numbers are estimates."
     },
   };
@@ -986,7 +985,7 @@
       title: "Chambers's Encyclopaedia",
       years: "1860–1868",
       dir: "data/chambers-encyclopaedia-1860-68",
-      count: "24,786 articles",
+      count: "24,787 articles",
       exactPages: true,
       note: "Scanned from the 1860–1868 printed books (the 1868 issue, 'WITH SUBSEQUENT CORRECTIONS') and cleaned up word by word — 157,454 machine-reading errors fixed, including 126 by reading the sentence around each garbled word. Article page numbers are the exact printed folios, checked against the printed pages. Volume 10 carries a Supplement of 1,265 articles, marked as such."
     },
@@ -994,7 +993,7 @@
       title: "The Catholic Encyclopedia",
       years: "1907–1922",
       dir: "data/catholic-encyclopedia-1907-1912",
-      count: "8,997 articles",
+      count: "9,019 articles",
       exactPages: true,
       flagLabels: {1: "Index", 2: "Supplement"},
       note: "Scanned from the 1907–1912 printed books (Robert Appleton Company, New York), with the Index volume (1914) and the Supplement volume (1922), and cleaned up word by word — 361,150 machine-reading errors fixed, including 119 by reading the sentence around each garbled word and 159 by a proofread pass. Article page numbers are the exact printed folios where they could be anchored, checked against the printed pages. Volume 16 is the Index and volume 17 the Supplement, marked as such."

@@ -9,9 +9,10 @@
   "dictionary_entries": 8706,
   "front_matter": 2,
   "back_matter": 1,
-  "words": 1266244,
+  "words": 1265715,
   "words_entries_text": 1197304,
-  "words_note": "1,266,244 is the cleaned-text total from the cleanup report. Entries + front matter + back matter text totals 1,266,240 words; the 4-word gap is the sentence-boundary punctuation the safety-net split points consume (see the cleanup report, section 3.1).",
+  "words_note": "words is the total of all record texts in the built data (dictionary entries 1197304 + front matter 8242 + back matter 60169 = 1265715). The cleanup report's cleaned-text total (1,266,244) is superseded: the front-matter repair replaced the garbled front-matter records after the first build. The combined cleaned-text file as it now stands totals 1,265,711 words.",
+  "audit_note": "2026-11-27 no-omission audit: 1 wrongly-changed reading restored to the printed text ('Six Isaac Newton' \u2192 'Sir Isaac Newton' \u00d72, in DEP and ALGEBRA); see lexicon-technicum-1723/audit-restorations.md. No word-count change on the restorations.",
   "letters": 26,
   "letters_note": "The book has 24 letter sections in the period alphabet (no J or U sections; J files under I, U under V), but 134 headwords are spelled with J or U (JANITOR, JAUNDICE, UNDUST, UOD, ...), so their lookup keys begin with j or u and the data holds j.json and u.json as well. The site looks an entry up by the first letter of its key; without those two files those 134 entries would be unreachable by search. The words.json row still carries the book's true section (I or V).",
   "sections_vol1": {

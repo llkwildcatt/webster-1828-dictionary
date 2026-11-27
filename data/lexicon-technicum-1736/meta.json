@@ -9,9 +9,10 @@
   "dictionary_entries": 8492,
   "front_matter": 2,
   "back_matter": 2,
-  "words": 1872141,
-  "words_entries_text": 1841170,
-  "words_note": "1,872,141 is the cleaned-text total after the front-matter repair (2026-11-26), down 3,258 words from the cleanup report's 1,875,399 (vol. 1: 865,692; vol. 2: 1,009,707). Entries text totals 1841170 words; the remainder is front matter, back matter, running heads and text the parser never assigned to an entry.",
+  "words": 1849596,
+  "words_entries_text": 1841169,
+  "words_note": "words is the total of all record texts in the built data (dictionary entries 1841169 + front matter 7459 + back matter 968 = 1849596). The cleanup report's cleaned-text total (1,875,399) is superseded: the front-matter repair changed the underlying text after the first build (the live total had already been corrected to 1,872,141 on that basis), and the 2026-11-27 no-omission audit restored one further word. Running heads, table fragments and other lines the parser did not assign to an entry are not in this total.",
+  "audit_note": "2026-11-27 no-omission audit: 3 wrongly-changed readings restored to the printed text (Main-stay \u2192 Main-Stays, apprehend \u2192 apprehends \u00d72, accord ingly \u2192 accordingly); see lexicon-technicum-1736/audit-restorations.md. Dictionary-entry words moved 1,841,170 \u2192 1,841,169 (-1) on the restorations.",
   "letters": 26,
   "letters_note": "The book has J and U sections in volume 2 (J: 56 entries; U: 73 entries), unlike the 1704, 1708-1710 and 1723-1725 editions. Volume 1 (A-H) has no J or U. The data holds j.json and u.json so those entries are reachable by search: the site looks an entry up by the first letter of its key. Several U headwords are U-for-V spellings as printed (ULCER, ULNA); some lost an initial letter (UINTESSENCE for QUINTESSENCE, USPENSION for SUSPENSION) and are kept as printed.",
   "sections_vol1": {
@@ -76,7 +77,7 @@
   "unpaginated": true,
   "citation": "The book has no printed page numbers. Cite entries by volume, letter section and headword, never by page.",
   "front_matter_pending_repair": false,
-  "front_matter_note": "The front matter was re-transcribed from the printed page images on 2026-11-26 (vol. 1: 7,355 words; vol. 2: 104 words), replacing the raw OCR. The vol. 1 back matter is a real booksellers' advertisement (Midwinter list, 913 words), transcribed in full; the vol. 2 back-matter record is a ZYMOSIS/FINIS entry-tail fragment, kept as-is.",
+  "front_matter_note": "The front matter (both volumes) is the repaired transcription from the printed page images (see lexicon-technicum-1736-frontmatter-fix-log.md); it replaced the garbled OCR text after the first site build. The vol. 1 back-matter record is a real advertisement, repaired the same way. The vol. 2 back-matter record is still a parser leftover (a fragment of entry tails), kept as-is.",
   "lost_entries": [
     "ABDOMINAL",
     "SECONDARY Planets"

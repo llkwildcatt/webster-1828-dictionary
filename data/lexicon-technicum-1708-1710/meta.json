@@ -8,9 +8,10 @@
   "dictionary_entries": 9395,
   "front_matter": 2,
   "back_matter": 1,
-  "words": 1507812,
-  "words_entries_text": 1472765,
-  "words_note": "1,507,812 is the cleaned-text total from the cleanup report. The entries JSON text totals fewer words because the parser dropped numbered sub-headings and table/figure labels (see the cleanup report, section 3.1 and the site-build report).",
+  "words": 1502540,
+  "words_entries_text": 1472709,
+  "words_note": "words is the total of all record texts in the built data (dictionary entries 1472709 + front matter 14752 + back matter 15079 = 1502540). The cleanup report's cleaned-text total (1,507,812) is superseded: the front-matter repair changed the underlying text after the first build. The entries JSON text totals fewer words than the cleaned text because the parser dropped numbered sub-headings and table/figure labels (see the cleanup report, section 3.1 and the site-build report).",
+  "audit_note": "2026-11-27 no-omission audit: 13 wrongly-changed readings restored to the printed text in 51 records (forbidden ×8, obliquely ×8, infallible, Difformity, rectify ×6, resembling ×5, -ously ×7, difficult ×6 + difficulty, and the period spellings colorifick, wilful/wilfully, favouring, unskilful, foetid); see lexicon-technicum-1708-1710/audit-restorations.md. Dictionary-entry words moved 1,472,765 → 1,472,709 (-56) on the restorations.",
   "letters": 24,
   "sections_vol1": {
     "A": 874,

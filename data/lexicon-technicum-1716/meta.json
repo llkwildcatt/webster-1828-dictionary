@@ -8,11 +8,12 @@
  "entries": 8429,
  "dictionary_entries": 8429,
  "front_matter": 1,
- "words": 1042614,
- "words_entries_text": 1015283,
- "words_front_matter_text": 6694,
- "words_records": 1021977,
- "words_note": "1,042,614 is the cleaned-text total from the cleanup report. Entries + front-matter text totals 1021977 words; the remaining 20637 words are running heads, table fragments and other lines the parser did not assign to an entry (see the cleanup report, section 3.1).",
+ "words": 1019218,
+ "words_entries_text": 1015282,
+ "words_front_matter_text": 3936,
+ "words_records": 1019218,
+ "words_note": "words is the total of all record texts in the built data (dictionary entries 1015282 + front matter 3936 = 1019218). The cleanup report's cleaned-text total (1,042,614) is superseded: the front-matter repair replaced the garbled front-matter record (6,694 words) with the repaired transcription (3,936 words) after the first build. Running heads, table fragments and other lines the parser did not assign to an entry are not in this total (see the cleanup report, section 3.1).",
+ "audit_note": "2026-11-27 no-omission audit: 24 wrongly-changed readings restored to the printed text (the bad roth→fourth fix ×7: 10th ×6 + Froth ×1, including the date 'May the 10th, 1701'; nigher ×5; dearer price; omnes ×2; readier ×2; chalky; cancelled; channelled ×2; accoutred; according to; aye proceed); see lexicon-technicum-1716/audit-restorations.md. Dictionary-entry words moved 1,015,283 → 1,015,282 (-1) on the restorations. The ELECTRICITY article is still filed under the garbled headword 'ELEC RICTTY' (site key 'elecrictty'); the headword was deliberately NOT fixed in this rebuild, pending a page-image check and a parent decision.",
  "letters": 26,
  "letters_note": "Unlike the earlier editions, this edition really does have J and U sections in volume 1 — 45 entries in J and 64 in U — so j.json and u.json hold genuine section entries, not just J/U-spelled headwords filed under I and V. The site looks an entry up by the first letter of its key; the words.json row carries the book's true section.",
  "sections": {
@@ -70,5 +71,5 @@
  ],
  "monsters_note": "Table regions and treatise prose the parser could not separate; kept whole as cleaned, not split by guesswork. See the cleanup report, section 3.4.",
  "first_entry_note": "The first dictionary entry is 'BACOT the Cap of State' as printed — the initial A of ABACOT is lost in the scan; the 1708 edition has 'ABACOT the Cap of State' as its first headword.",
- "front_matter_note": "The front-matter record (title page, dedication, preface; lines 0-1297, 6,694 words) is included as-is from the cleaned text; its text is still partly garbled and is pending a separate repair. It is not counted in words.json."
+ "front_matter_note": "The front-matter record (title page, dedication, preface; 3,936 words) is the repaired transcription from the printed page images (see lexicon-technicum-1716-frontmatter-fix-log.md); it replaced the garbled OCR text (6,694 words) after the first site build. It is not counted in words.json."
 }

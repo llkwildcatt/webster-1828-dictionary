@@ -3,12 +3,13 @@
   "edition": "1860-1868, 1868 issue 'WITH SUBSEQUENT CORRECTIONS'",
   "years": "1860–1868",
   "volumes": 10,
-  "articles": 24786,
+  "articles": 24787,
   "supplement_articles": 1265,
-  "words": 9809628,
+  "words": 9809499,
   "letters": 26,
   "corrections": 157454,
   "source": "HathiTrust record 005698265; Internet Archive chamberssencyclo01lond-10lond (Cornell/UCLA, 1868 issue); Wellcome b3377920x_0001-_0010 (1860 first issue) as reading aid only",
   "pages_note": "Article page numbers are the exact printed folios, validated against 12 printed pages read as images.",
-  "supplement_note": "Volume 10 carries a Supplement (1,265 articles, flagged 'supplement': true). Supplement articles are marked on their pages and in the letter lists."
+  "supplement_note": "Volume 10 carries a Supplement (1,265 articles, flagged 'supplement': true). Supplement articles are marked on their pages and in the letter lists.",
+  "audit_note": "2026-11-27 no-omission audit: 90 headword keys restored (incl. CATMINT, vol. 2 p. 683, and MIASMA, vol. 6 p. 437), BATHS AND WASH-HOUSES split out of BATH as its own entry (articles 24,786 -> 24,787), and 1,592 text fixes restoring wrongly-changed text. No disagreement cases (content changed because the corrector disagreed with the writer) were found in this book. Honest limits: BATH STONE is a genuine scan loss (no such headword in either scan); ambiguous 'tu' (17), 'iin' (4) and 'lii'/'iate'/'eii' (10) items left unresolved, never guessed; the Gorey (Ireland) entry is still keyed GORED as a follow-up; ~4,000 further corrupting tail instances estimated to remain; ~4,406 headwords still hold an unknown word; illustrations, maps and tables not reproduced."
 }

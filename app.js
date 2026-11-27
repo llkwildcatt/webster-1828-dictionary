@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261126215741";
+  var BUILD_V = "20261127022933";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -162,6 +162,13 @@
       "<p>Collier's New Encyclopedia, 1921, all ten volumes — 24,380 articles, " +
       "cleaned up word by word from the printed books. The BENIN page in volume 1 was filled from a verified same-edition second copy.</p>" +
       '<p><a href="#/colliers-new-encyclopedia-1921/">Browse Collier\'s New Encyclopedia</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>The World Book</h2>" +
+      "<p>The World Book, 1st edition, 1917–1918, all eight volumes — 11,405 articles, " +
+      "cleaned up word by word from the printed books, with its maps, portraits and full-page pictures — 245 plates in all. " +
+      "It lives on its own companion site, because this one can only hold so much.</p>" +
+      '<p><a href="https://llkwildcatt.github.io/world-book-1918/">Browse The World Book</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +

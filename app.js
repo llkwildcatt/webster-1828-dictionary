@@ -7,7 +7,7 @@
   // BUILD_V is replaced with the deploy timestamp by deploy-site.py, so
   // every deploy gives the data files a fresh URL and browsers cannot keep
   // serving the previous deploy's cached JSON.
-  var BUILD_V = "20261127161947";
+  var BUILD_V = "20261128030753";
   function bust(u) { return u + "?v=" + BUILD_V; }
 
   var main = document.getElementById("main");
@@ -177,6 +177,14 @@
       "Volume 8 carries the study outlines, the history of each letter, and a 24,244-entry Fact-Index. " +
       "It lives on its own companion site, because this one can only hold so much.</p>" +
       '<p><a href="https://llkwildcatt.github.io/comptons-pictured-encyclopedia-1922/">Browse Compton\'s Pictured Encyclopedia</a></p>' +
+      "</section>" +
+      '<section class="bible-feature">' +
+      "<h2>La Grande Encyclopédie</h2>" +
+      "<p>La Grande Encyclopédie, 1st edition, 1886–1902, all thirty-one volumes — 138,929 articles, " +
+      "cleaned up word by word from the printed books. Le texte est l'original français de la 1re édition — " +
+      "the text is the French original; an English translation is to come. " +
+      "It lives on its own companion site, because this one can only hold so much.</p>" +
+      '<p><a href="https://llkwildcatt.github.io/la-grande-encyclopedie/">Browse La Grande Encyclopédie</a></p>' +
       "</section>" +
       '<section class="bible-feature">' +
       "<h2>More encyclopaedias and dictionaries</h2>" +
